@@ -1,5 +1,7 @@
 # expense_tracker
 
+this is garbage. tanab le marcha.
+
 A new Flutter project.
 
 ## Getting Started
