@@ -1,5 +1,6 @@
 //this is the signin page
 //the landing page if the user is logged out
+import 'package:expense_tracker/screens/homepage/home.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -91,6 +92,7 @@ class _SignInState extends State<SignIn> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: new BorderRadius.circular(25.0),
+                  //borderSide: BorderSide
                 ),
                 filled: true,
                 fillColor: Colors.white,
@@ -107,7 +109,7 @@ class _SignInState extends State<SignIn> {
           // ignore: deprecated_member_use
           RaisedButton(
             color: Colors.green[800],
-            padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
+            padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
                 side: BorderSide(color: Colors.red)),
@@ -116,11 +118,11 @@ class _SignInState extends State<SignIn> {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () async {
-              if (_formkey.currentState.validate()) {
-                print('signed in');
-              }
-              print(email);
-              print(password);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DashBoard()),
+              );
+              //if (_formkey.currentState.validate()) {
             },
           )
         ])),

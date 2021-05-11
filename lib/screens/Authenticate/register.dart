@@ -24,13 +24,15 @@ class _RegisterState extends State<Register> {
         backgroundColor: Colors.blue[400],
         body: Column(children: <Widget>[
           Container(
-            child: Text(
+              child: Container(
+            child: new Text(
               'Create an account',
               textAlign: TextAlign.left,
               style: new TextStyle(fontSize: 40.0, color: Colors.white),
             ),
-            // Text('Enter details to register'),
-          ),
+          )
+              // Text('Enter details to register'),
+              ),
           Container(
             padding: EdgeInsets.symmetric(
               vertical: 140.0,
@@ -42,7 +44,9 @@ class _RegisterState extends State<Register> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Text('Email', style: TextStyle(color: Colors.white)),
+                  Text('Email',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.white)),
                   Container(
                     width: 350,
                     //alignment: ,
@@ -69,7 +73,9 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                   SizedBox(height: 20.0),
-                  Text('Full Name', style: TextStyle(color: Colors.white)),
+                  Text('Full Name',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.white)),
                   Container(
                     width: 350,
                     child: TextField(
@@ -88,7 +94,9 @@ class _RegisterState extends State<Register> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Text('Password', style: TextStyle(color: Colors.white)),
+                  Text('Password',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.white)),
                   Container(
                     width: 350,
                     /*child:

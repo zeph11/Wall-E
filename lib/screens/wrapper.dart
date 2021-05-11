@@ -5,11 +5,13 @@
 
 import 'package:expense_tracker/screens/Authenticate/authenciate.dart';
 import 'package:expense_tracker/screens/Authenticate/signin.dart';
+import 'package:expense_tracker/screens/homepage/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:expense_tracker/screens/homepage/home.dart';
 
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Authenciate();
+    return DashBoard();
   }
 }
