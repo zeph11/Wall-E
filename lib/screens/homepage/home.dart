@@ -1,8 +1,12 @@
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:expense_tracker/InandOut/Cashin.dart';
+import 'package:expense_tracker/InandOut/Cashout.dart';
+import 'package:expense_tracker/screens/homepage/dashboard.dart';
 import 'package:expense_tracker/screens/homepage/history.dart';
 import 'package:expense_tracker/screens/homepage/overview.dart';
 import 'package:expense_tracker/screens/homepage/profile.dart';
 import 'package:flutter/material.dart';
+//import 'cuppertin'
 
 class DashBoard extends StatefulWidget {
   @override
@@ -12,8 +16,8 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   int _currentIndex = 0;
   final List<Widget> _children = [
+    DashBoardPage(),
     OverviewPage(),
-    HistoryPage(),
     ProfilePage(),
   ];
   void initState() {
@@ -29,14 +33,18 @@ class _DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue[400],
-        elevation: 0.0, //removes dropshadow
-        title: Text('Dashboard'),
-      ),
-      /*
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.blue[400],
+          elevation: 0.0, //removes dropshadow
+          title: Text('Dashboard',
+              style: TextStyle(
+                fontSize: 27.0,
+              )),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: 0,
+          // onTap: changePage,
           items: [
             BottomNavigationBarItem(
               icon: new Icon(Icons.dashboard),
@@ -44,9 +52,9 @@ class _DashBoardState extends State<DashBoard> {
               title: new Text('Dashboard'),
             ),
             BottomNavigationBarItem(
-              icon: new Icon(Icons.history),
+              icon: new Icon(Icons.access_time),
               // ignore: deprecated_member_use
-              title: new Text('History'),
+              title: new Text('Overview'),
             ),
             BottomNavigationBarItem(
               icon: new Icon(Icons.person),
@@ -54,9 +62,12 @@ class _DashBoardState extends State<DashBoard> {
               title: new Text('Profile'),
             )
           ],
-        )*/
+        ),
+/*
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          null;
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.red,
       ),
@@ -89,28 +100,23 @@ class _DashBoardState extends State<DashBoard> {
               icon: Icon(Icons.person, color: Colors.black),
               activeIcon: Icon(Icons.person, color: Colors.blue)),
         ],
-      ),
-      body: (_currentIndex == 0)
-          ? Icon(
-              Icons.dashboard,
-              //size=150.0,
-            )
+      ),*/
+        body: (_currentIndex == 0)
+            ? DashBoardPage()
+            /*
           : (_currentIndex == 1)
               ? Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => OverviewPage()),
-                )
-              : (_currentIndex == 2)
-                  ? Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HistoryPage()),
-                    )
-                  : Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()),
-                    )
-      //alignment:
-      ,
-    );
+                )*/
+            : (_currentIndex == 1)
+                ? Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => OverviewPage()),
+                  )
+                : Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  ));
   }
 }

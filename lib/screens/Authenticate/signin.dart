@@ -1,5 +1,6 @@
 //this is the signin page
 //the landing page if the user is logged out
+import 'package:expense_tracker/screens/Authenticate/register.dart';
 import 'package:expense_tracker/screens/homepage/home.dart';
 import 'package:flutter/material.dart';
 
@@ -19,114 +20,139 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[400],
-      appBar: AppBar(
-        backgroundColor: Colors.blue[300],
-        elevation: 0.0, //removes dropshadow
-        title: Text('Sign In'),
-        actions: <Widget>[
-          // ignore: deprecated_member_use
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Register'),
-            onPressed: () {
-              print("pressed");
-              widget.toggleView();
-            },
-          )
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: 180.0,
-          horizontal: 50.0,
-        ), //removes away from edges
-        child: Form(
-            child: Column(children: <Widget>[
-          SizedBox(
-            height: 20.0,
-          ),
-          Text('Email', style: TextStyle(color: Colors.white)),
-          Container(
-            width: 350,
-            //alignment: ,
-            child: TextField(
-              /*validator: (val) {
-              if (val == null || val.isEmpty) {
-                return 'Enter an email';
-              }
-              return null;
-            },*/
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-
-                  // borderSide: BorderSide(color: Colors.white)
+        backgroundColor: Colors.blue[400],
+        body: SingleChildScrollView(
+          child: Container(
+              child: Column(
+            children: [
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.symmetric(
+                  vertical: 40.0,
+                  horizontal: 10,
                 ),
-                labelText: 'Enter Email',
-                filled: true,
-                fillColor: Colors.white,
+                child: Column(
+                  children: [
+                    Text('Welcome !',
+                        textAlign: TextAlign.left,
+                        style:
+                            new TextStyle(fontSize: 50.0, color: Colors.white)),
+                    Text('Log in to your account',
+                        textAlign: TextAlign.left,
+                        style:
+                            new TextStyle(fontSize: 20.0, color: Colors.white)),
+                  ],
+                ),
               ),
-              onChanged: (val) {
-                setState(() => email = val);
-              },
-            ),
-          ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 180.0,
+                  horizontal: 50.0,
+                ), //removes away from edges
+                child: Form(
+                    child: Column(children: <Widget>[
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Text('Email', style: TextStyle(color: Colors.white)),
+                  Container(
+                    width: 350,
+                    //alignment: ,
+                    child: TextField(
+                      /*validator: (val) {
+                if (val == null || val.isEmpty) {
+                  return 'Enter an email';
+                }
+                return null;
+              },*/
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(25.0),
 
-          SizedBox(
-            height: 20.0,
-          ),
-          Text('Password', style: TextStyle(color: Colors.white)),
-          Container(
-            width: 350,
-            /*child:
-            Padding(
+                          // borderSide: BorderSide(color: Colors.white)
+                        ),
+                        labelText: 'Enter Email',
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      onChanged: (val) {
+                        setState(() => email = val);
+                      },
+                    ),
+                  ),
+
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Text('Password', style: TextStyle(color: Colors.white)),
+                  Container(
+                    width: 350,
+                    /*child:
+              Padding(
       padding: const EdgeInsets.all(10.0),*/
-            child: TextFormField(
-              /*validator: (val) {
-              if (val == null || val.length > 6) {
-                return 'Enter an passowrd more than 6 characters';
-              }
-              return null;
-            },*/
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-                  //borderSide: BorderSide
-                ),
-                filled: true,
-                fillColor: Colors.white,
-                labelText: 'Enter Password',
-              ),
-              obscureText: true,
-              onChanged: (val) {
-                setState(() => password = val);
-              },
-            ),
-          ),
+                    child: TextFormField(
+                      /*validator: (val) {
+                if (val == null || val.length > 6) {
+                  return 'Enter an passowrd more than 6 characters';
+                }
+                return null;
+              },*/
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(25.0),
+                          //borderSide: BorderSide
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Enter Password',
+                      ),
+                      obscureText: true,
+                      onChanged: (val) {
+                        setState(() => password = val);
+                      },
+                    ),
+                  ),
 
-          SizedBox(height: 20.0),
-          // ignore: deprecated_member_use
-          RaisedButton(
-            color: Colors.green[800],
-            padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side: BorderSide(color: Colors.red)),
-            child: Text(
-              'Sign In',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DashBoard()),
-              );
-              //if (_formkey.currentState.validate()) {
-            },
-          )
-        ])),
-      ),
-    );
+                  SizedBox(height: 40.0),
+                  // ignore: deprecated_member_use
+                  RaisedButton(
+                    color: Colors.green[900],
+                    padding: EdgeInsets.fromLTRB(60, 20, 60, 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(color: Colors.red)),
+                    child: Text(
+                      'LOGIN',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DashBoard()),
+                      );
+                      //if (_formkey.currentState.validate()) {
+                    },
+                  ),
+                  SizedBox(height: 35.0),
+                  Text('Don\t have an account yet?',
+                      style: TextStyle(color: Colors.white)),
+                  InkWell(
+                    child: Text('Register',
+                        style: TextStyle(
+                          color: Colors.white,
+                          decoration: TextDecoration.underline,
+                        )),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Register()),
+                      );
+                    },
+                  ),
+                ])),
+              ),
+            ],
+          )),
+        ));
   }
 }

@@ -1,22 +1,31 @@
-import 'package:expense_tracker/screens/Authenticate/signin.dart';
+import 'package:expense_tracker/screens/homepage/profile.dart';
 import 'package:flutter/material.dart';
 
-class CollectInfo extends StatelessWidget {
+class DetailsPage extends StatefulWidget {
+  @override
+  _DetailsPageState createState() => _DetailsPageState();
+}
+
+class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue[300],
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.blue[400],
           elevation: 0.0, //removes dropshadow
-          title: Text('Your Details'),
+          title: Text('Edit your Details'),
         ),
         body: Container(
-          padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 50.0),
-          child: Form(
-            child: new Column(
+            padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 50.0),
+            child: Form(
+                child: new Column(
               //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text("How much do you expect to spend daily?"),
+                Text(" Change Name",
+                    style: TextStyle(
+                      fontSize: 17.0,
+                    )),
                 SizedBox(
                   height: 10.0,
                 ),
@@ -27,9 +36,9 @@ class CollectInfo extends StatelessWidget {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(25.0)),
-                          labelText: 'Daily Expense',
+                          labelText: ' New  Name',
                           filled: true,
-                          fillColor: Colors.blue[400],
+                          fillColor: Colors.blue[100],
                         ),
                         onChanged: (val) {
                           //setState(() => name = val);
@@ -39,7 +48,10 @@ class CollectInfo extends StatelessWidget {
                 SizedBox(
                   height: 20.0,
                 ),
-                Text('How much do you think your monthy expense will be?'),
+                Text('Change Password',
+                    style: TextStyle(
+                      fontSize: 17.0,
+                    )),
                 new Flexible(
                   child: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -47,9 +59,9 @@ class CollectInfo extends StatelessWidget {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(25.0)),
-                          labelText: 'Monthly Expenditure',
+                          labelText: 'New Password ',
                           filled: true,
-                          fillColor: Colors.blue[400],
+                          fillColor: Colors.blue[100],
                         ),
                         onChanged: (val) {
                           //setState(() => name = val);
@@ -59,7 +71,10 @@ class CollectInfo extends StatelessWidget {
                 SizedBox(
                   height: 20.0,
                 ),
-                Text('HOw much would you expect to save monthly?'),
+                Text('Change  Expected Monthly Expenditure',
+                    style: TextStyle(
+                      fontSize: 17.0,
+                    )),
                 new Flexible(
                   child: Padding(
                       padding: const EdgeInsets.all(15.0),
@@ -67,9 +82,32 @@ class CollectInfo extends StatelessWidget {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(25.0)),
-                          labelText: 'Expected Savings',
+                          labelText: ' New Expected Expenditure',
                           filled: true,
-                          fillColor: Colors.blue[400],
+                          fillColor: Colors.blue[100],
+                        ),
+                        onChanged: (val) {
+                          //setState(() => name = val);
+                        },
+                      )),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Text('Change  Expected Monthly Saving',
+                    style: TextStyle(
+                      fontSize: 17.0,
+                    )),
+                new Flexible(
+                  child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: new TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(25.0)),
+                          labelText: ' New Expected Savings',
+                          filled: true,
+                          fillColor: Colors.blue[100],
                         ),
                         onChanged: (val) {
                           //setState(() => name = val);
@@ -89,36 +127,12 @@ class CollectInfo extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => SignIn()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()));
                     })
               ],
-
-              /* Column(
-            children: <Widget>[
-              Text(
-                "Your expected Income:",
-                textAlign: TextAlign.left,
-                // style:TextStyle,
-              ),
-              Container(
-                  width: 350,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(25.0)),
-                      labelText: 'Expected Income',
-                      filled: true,
-                      fillColor: Colors.blue[400],
-                    ),
-                    onChanged: (val) {
-                      //setState(() => name = val);
-                    },
-                  ))
-            ],
-          ),*/
-            ),
-          ),
-        ));
+            ))));
   }
 }
