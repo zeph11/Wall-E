@@ -1,5 +1,14 @@
 # expense_tracker
 
+color codes:
+top bar: BLUE #3282B8 (100%)
+selection: GREEN #008000 (100%)
+dashboard:
+	available balance: BLUE #A6CBEB (56%)
+	total income: GREEN #008000 (27%)
+	total expense: RED #B30000 (27%)
+batta batta to enter info: BLUE #3282B8 (80%)
+
 A new Flutter project.
 
 ## Getting Started
