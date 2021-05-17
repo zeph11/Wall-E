@@ -71,7 +71,7 @@ class _SignInState extends State<SignIn> {
 
                           // borderSide: BorderSide(color: Colors.white)
                         ),
-                        labelText: 'Enter Email',
+                        hintText: 'Enter Email',
                         filled: true,
                         fillColor: Colors.white,
                       ),
@@ -104,7 +104,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         filled: true,
                         fillColor: Colors.white,
-                        labelText: 'Enter Password',
+                        hintText: 'Enter Password',
                       ),
                       obscureText: true,
                       onChanged: (val) {
@@ -120,7 +120,7 @@ class _SignInState extends State<SignIn> {
                     padding: EdgeInsets.fromLTRB(60, 20, 60, 20),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide(color: Colors.red)),
+                        side: BorderSide(color: Colors.white)),
                     child: Text(
                       'LOGIN',
                       style: TextStyle(color: Colors.white),

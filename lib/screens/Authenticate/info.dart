@@ -1,5 +1,6 @@
 import 'package:expense_tracker/screens/Authenticate/signin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CollectInfo extends StatelessWidget {
   @override
@@ -27,10 +28,14 @@ class CollectInfo extends StatelessWidget {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(25.0)),
-                          labelText: 'Daily Expense',
+                          hintText: 'Daily Expense',
                           filled: true,
                           fillColor: Colors.blue[400],
                         ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         onChanged: (val) {
                           //setState(() => name = val);
                         },
@@ -46,11 +51,16 @@ class CollectInfo extends StatelessWidget {
                       child: new TextField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
+                              //borderSide: new BorderSide(color: Colors.teal),
                               borderRadius: new BorderRadius.circular(25.0)),
-                          labelText: 'Monthly Expenditure',
+                          hintText: 'Monthly Expenditure',
                           filled: true,
                           fillColor: Colors.blue[400],
                         ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         onChanged: (val) {
                           //setState(() => name = val);
                         },
@@ -67,10 +77,14 @@ class CollectInfo extends StatelessWidget {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(25.0)),
-                          labelText: 'Expected Savings',
+                          hintText: 'Expected Savings',
                           filled: true,
                           fillColor: Colors.blue[400],
                         ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         onChanged: (val) {
                           //setState(() => name = val);
                         },
@@ -83,7 +97,7 @@ class CollectInfo extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(60, 20, 60, 20),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide(color: Colors.red)),
+                        side: BorderSide(color: Colors.white)),
                     child: Text(
                       'Done',
                       style: TextStyle(color: Colors.white),

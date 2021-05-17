@@ -1,5 +1,6 @@
 import 'package:expense_tracker/screens/homepage/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DetailsPage extends StatefulWidget {
   @override
@@ -86,6 +87,10 @@ class _DetailsPageState extends State<DetailsPage> {
                           filled: true,
                           fillColor: Colors.blue[100],
                         ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         onChanged: (val) {
                           //setState(() => name = val);
                         },
@@ -109,6 +114,10 @@ class _DetailsPageState extends State<DetailsPage> {
                           filled: true,
                           fillColor: Colors.blue[100],
                         ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         onChanged: (val) {
                           //setState(() => name = val);
                         },
@@ -121,7 +130,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     padding: EdgeInsets.fromLTRB(60, 20, 60, 20),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide(color: Colors.red)),
+                        side: BorderSide(color: Colors.white)),
                     child: Text(
                       'Done',
                       style: TextStyle(color: Colors.white),

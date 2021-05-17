@@ -1,6 +1,8 @@
 import 'package:expense_tracker/screens/homepage/home.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter/services.dart';
+
 class CashOut extends StatefulWidget {
   @override
   _CashOutState createState() => _CashOutState();
@@ -62,6 +64,10 @@ class _CashOutState extends State<CashOut> {
                                   filled: true,
                                   fillColor: Colors.blue[200],
                                 ),
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 onChanged: (val) {
                                   setState(() => amt = val);
                                 },
@@ -446,6 +452,10 @@ class _CashOutState extends State<CashOut> {
                                 filled: true,
                                 fillColor: Colors.blue[200],
                               ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               onChanged: (val) {
                                 setState(() => amt = val);
                               },

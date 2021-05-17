@@ -1,5 +1,6 @@
 import 'package:expense_tracker/screens/homepage/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CashIn extends StatefulWidget {
   @override
@@ -58,10 +59,15 @@ class _CashInState extends State<CashIn> {
                                     borderRadius:
                                         new BorderRadius.circular(25.0),
                                   ),
-                                  labelText: 'Enter Amount',
+                                  hintText: 'Enter Amount',
+                                  prefixText: 'Rs. ',
                                   filled: true,
                                   fillColor: Colors.blue[200],
                                 ),
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 onChanged: (val) {
                                   setState(() => amt = val);
                                 },
@@ -80,9 +86,8 @@ class _CashInState extends State<CashIn> {
                                           new BorderRadius.circular(25.0)),
                                   filled: true,
                                   fillColor: Colors.blue[200],
-                                  labelText: 'Enter Date',
+                                  hintText: 'Enter Date',
                                 ),
-                                obscureText: true,
                                 onChanged: (val) {
                                   setState(() => amt = val);
                                 },
@@ -102,9 +107,8 @@ class _CashInState extends State<CashIn> {
                                           new BorderRadius.circular(25.0)),
                                   filled: true,
                                   fillColor: Colors.blue[200],
-                                  labelText: 'Enter any Note',
+                                  hintText: 'Enter any Note',
                                 ),
-                                obscureText: true,
                                 onChanged: (val) {
                                   setState(() => amt = val);
                                 },
@@ -307,10 +311,15 @@ class _CashInState extends State<CashIn> {
                                 border: OutlineInputBorder(
                                   borderRadius: new BorderRadius.circular(25.0),
                                 ),
-                                labelText: 'Enter Amount',
+                                hintText: 'Enter Amount',
+                                prefixText: 'Rs. ',
                                 filled: true,
                                 fillColor: Colors.blue[200],
                               ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                               onChanged: (val) {
                                 setState(() => amt = val);
                               },
@@ -329,9 +338,8 @@ class _CashInState extends State<CashIn> {
                                         new BorderRadius.circular(25.0)),
                                 filled: true,
                                 fillColor: Colors.blue[200],
-                                labelText: 'Enter Date',
+                                hintText: 'Enter Date',
                               ),
-                              obscureText: true,
                               onChanged: (val) {
                                 setState(() => amt = val);
                               },
@@ -350,9 +358,8 @@ class _CashInState extends State<CashIn> {
                                         new BorderRadius.circular(25.0)),
                                 filled: true,
                                 fillColor: Colors.blue[200],
-                                labelText: 'Enter any Note',
+                                hintText: 'Enter any Note',
                               ),
-                              obscureText: true,
                               onChanged: (val) {
                                 setState(() => amt = val);
                               },

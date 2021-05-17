@@ -78,7 +78,7 @@ class _RegisterState extends State<Register> {
 
                             // borderSide: BorderSide(color: Colors.white)
                           ),
-                          labelText: 'Enter Email',
+                          hintText: 'Enter Email',
                           filled: true,
                           fillColor: Colors.white,
                         ),
@@ -97,7 +97,7 @@ class _RegisterState extends State<Register> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(25.0)),
-                          labelText: 'Enter Full Name',
+                          hintText: 'Enter Full Name',
                           filled: true,
                           fillColor: Colors.white,
                         ),
@@ -130,7 +130,7 @@ class _RegisterState extends State<Register> {
                           ),
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: 'Enter Password',
+                          hintText: 'Enter Password',
                         ),
                         obscureText: true,
                         onChanged: (val) {
@@ -146,7 +146,7 @@ class _RegisterState extends State<Register> {
                       padding: EdgeInsets.fromLTRB(60, 20, 60, 20),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide(color: Colors.red)),
+                          side: BorderSide(color: Colors.white)),
                       child: Text(
                         'Register',
                         style: TextStyle(color: Colors.white),
