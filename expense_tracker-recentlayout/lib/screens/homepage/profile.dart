@@ -76,8 +76,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 5.0,
                     ),
                     Container(
+                        decoration: BoxDecoration(
+                          color: Colors.brown[100],
+                          borderRadius: BorderRadius.all(
+                            const Radius.circular(20),
+                          ),
+                        ),
                         //first colored box
-                        color: Colors.brown[100],
+
                         padding: EdgeInsets.symmetric(
                           vertical: 20.0,
                           horizontal: 20.0,
@@ -149,12 +155,18 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     SizedBox(height: 5.0),
                     Container(
+                      decoration: BoxDecoration(
+                        color: Colors.purple[100],
+                        borderRadius: BorderRadius.all(
+                          const Radius.circular(20),
+                        ),
+                      ),
                       padding: EdgeInsets.symmetric(
                         vertical: 20.0,
                         horizontal: 20.0,
                       ),
                       //purple container
-                      color: Colors.purple[100],
+
                       child: Form(
                         child: Column(
                           children: <Widget>[
@@ -230,6 +242,100 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: <Widget>[
                     Container(
                       alignment: Alignment.centerLeft,
+                      child: Text('Expense Sources',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                          )),
+                    ),
+                    SizedBox(height: 5.0),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.green[100],
+                        borderRadius: BorderRadius.all(
+                          const Radius.circular(20),
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 20.0,
+                        horizontal: 20.0,
+                      ),
+                      //green income container
+
+                      child: Form(
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Source A',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Source B',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Source C',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Source D',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 24.0),
+              Container(
+                //third  detail ko container
+                padding: EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.centerLeft,
                       child: Text('Income Sources',
                           style: TextStyle(
                             fontSize: 25.0,
@@ -237,12 +343,18 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     SizedBox(height: 5.0),
                     Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red[100],
+                        borderRadius: BorderRadius.all(
+                          const Radius.circular(20),
+                        ),
+                      ),
                       padding: EdgeInsets.symmetric(
                         vertical: 20.0,
                         horizontal: 20.0,
                       ),
                       //green income container
-                      color: Colors.green[100],
+
                       child: Form(
                         child: Column(
                           children: <Widget>[

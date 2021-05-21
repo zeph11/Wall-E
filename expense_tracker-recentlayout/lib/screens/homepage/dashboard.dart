@@ -111,18 +111,18 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   )),
               SizedBox(height: 15),
               Container(
-                /*decoration: BoxDecoration(
+                decoration: BoxDecoration(
+                  color: Colors.blue[100],
                   borderRadius: BorderRadius.all(
                     const Radius.circular(20),
                   ),
-                ),*/
+                ),
                 // yo first block ko container
 
                 alignment: Alignment.center,
                 height: 115,
                 width: 390,
                 padding: EdgeInsets.symmetric(vertical: 10),
-                color: Colors.blue[100],
                 child: Column(
                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -152,13 +152,18 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
+                          decoration: BoxDecoration(
+                            color: Colors.green[100],
+                            borderRadius: BorderRadius.all(
+                              const Radius.circular(20),
+                            ),
+                          ),
                           padding: EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 8,
                           ),
                           //income container
                           alignment: Alignment.bottomLeft,
-                          color: Colors.green[100],
                           child: Column(
                             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -176,13 +181,18 @@ class _DashBoardPageState extends State<DashBoardPage> {
                             ],
                           )),
                       Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red[100],
+                            borderRadius: BorderRadius.all(
+                              const Radius.circular(20),
+                            ),
+                          ),
                           padding: EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 8,
                           ),
                           //expense container
                           alignment: Alignment.bottomLeft,
-                          color: Colors.red[100],
                           child: Column(
                             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
