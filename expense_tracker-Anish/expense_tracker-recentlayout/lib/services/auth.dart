@@ -1,6 +1,7 @@
 //connect to the database for authenciation
 import 'package:firebase_auth/firebase_auth.dart';
 import 'user.dart';
+import 'package:expense_tracker/screens/Authenticate/register.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -20,6 +21,7 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
+
       return _userfromfirebaseuser(user);
     } catch (e) {
       print(e.toString());

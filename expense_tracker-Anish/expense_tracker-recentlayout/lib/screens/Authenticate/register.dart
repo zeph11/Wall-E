@@ -1,16 +1,21 @@
 //this is basically the signup page.
 //the code for designing the page goes here
 
+import 'dart:html';
 import 'dart:ui';
 
 import 'package:expense_tracker/screens/Authenticate/info.dart';
 import 'package:expense_tracker/screens/Authenticate/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:expense_tracker/services/user.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleView;
-  Register({this.toggleView});
+  // final Function toggleView;
+  // Register({this.toggleView});
+  String uid = 'a';
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -19,10 +24,25 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
+  final homeRef = FirebaseFirestore.instance.collection("user");
+  User user;
+
+  Userclass _userfromfirebaseuser(User user) {
+    return user != null ? Userclass(uid: user.uid) : null;
+  }
+
+  //creating databae
+  _trialDatabase(String email, String name, String password) async {
+    await homeRef
+        .doc(name)
+        .set({"EmailId": email, "FullName": name, "Password": password});
+  }
+
   String email = ' ';
   String password = ' ';
   String name = '';
   String error = '';
+  String uid = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,10 +197,11 @@ class _RegisterState extends State<Register> {
                           if (result == null) {
                             setState(() => error = "invalid email");
                           } else {
+                            _trialDatabase(email, name, password);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CollectInfo()),
+                                  builder: (context) => CollectInfo(name)),
                             );
                           }
                         }
@@ -188,7 +209,7 @@ class _RegisterState extends State<Register> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CollectInfo()),
+                                builder: (context) => CollectInfo(name)),
                           );
                           print('registerd');
                         }

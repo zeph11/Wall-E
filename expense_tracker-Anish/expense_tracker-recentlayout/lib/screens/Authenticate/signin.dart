@@ -20,15 +20,13 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
-  //final homeRef = FirebaseFirestore.instance.collection("home");
-  //User user;
+  // final homeRef = FirebaseFirestore.instance.collection("user");
+  // User user;
 
-//creating databae
-  // _trialDatabase(String email) async{
-  //   await homeRef.doc("username").set({
-  //     "data":email
-  //   });
-  // }
+  //creating databae
+  // _trialDatabase(String email) async {
+  //   await homeRef.doc("username").set({"EmailId": email});
+  //}
 
   // readDatabase()async{
   //   QuerySnapshot query = await homeRef.get();
@@ -183,6 +181,7 @@ class _SignInState extends State<SignIn> {
                               setState(
                                   () => error = "INVALID EMAIL OR PASSSWORD.");
                             } else {
+                              //_trialDatabase(email);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

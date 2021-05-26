@@ -1,8 +1,35 @@
 import 'package:expense_tracker/screens/Authenticate/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class CollectInfo extends StatelessWidget {
+String name;
+
+class CollectInfo extends StatefulWidget {
+  CollectInfo(name) {
+    //this.name = name;
+  }
+  @override
+  _CollectInfoState createState() => _CollectInfoState();
+}
+
+class _CollectInfoState extends State<CollectInfo> {
+  String dexpense = "";
+
+  String mexpense = "";
+
+  String esavings = "";
+
+  final homeRef = FirebaseFirestore.instance.collection("user");
+
+  User user;
+
+  void updateDatabse(String dexpense, String mexpense, String esavings) async {
+    await homeRef.doc(name).update(
+        {"dexpense": dexpense, "mexpense": mexpense, "esavings": esavings});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +62,13 @@ class CollectInfo extends StatelessWidget {
                           filled: true,
                           fillColor: Color(0xff3282B8).withOpacity(0.9),
                         ),
+                        onChanged: (val) {
+                          setState(() => dexpense = val);
+                        },
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
                         ],
-                        onChanged: (val) {
-                          //setState(() => name = val);
-                        },
                       )),
                 ),
                 SizedBox(
@@ -70,7 +97,7 @@ class CollectInfo extends StatelessWidget {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         onChanged: (val) {
-                          //setState(() => name = val);
+                          setState(() => mexpense = val);
                         },
                       )),
                 ),
@@ -97,7 +124,7 @@ class CollectInfo extends StatelessWidget {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         onChanged: (val) {
-                          //setState(() => name = val);
+                          setState(() => esavings = val);
                         },
                       )),
                 ),
@@ -115,6 +142,8 @@ class CollectInfo extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
+                      updateDatabse(dexpense, mexpense, esavings);
+
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => SignIn()));
                     })

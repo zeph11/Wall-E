@@ -245,7 +245,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: <Widget>[
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: Text('Expense Sources',
+                      child: Text('Income Sources',
                           style: TextStyle(
                             fontSize: 25.0,
                           )),
@@ -339,7 +339,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: <Widget>[
                     Container(
                       alignment: Alignment.centerLeft,
-                      child: Text('Income Sources',
+                      child: Text('Expense Sources',
                           style: TextStyle(
                             fontSize: 25.0,
                           )),
