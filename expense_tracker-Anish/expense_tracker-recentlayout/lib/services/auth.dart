@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'user.dart';
 import 'package:expense_tracker/screens/Authenticate/register.dart';
+import 'package:expense_tracker/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -16,12 +17,14 @@ class AuthService {
   }
 
   //register
-  Future registerwithemail(String email, String password) async {
+  Future registerwithemail(String email, String name, String password) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
 
+      //create a new user document
+      await DatabaseService(uid: user.uid).trialDatabase(email, name, password);
       return _userfromfirebaseuser(user);
     } catch (e) {
       print(e.toString());

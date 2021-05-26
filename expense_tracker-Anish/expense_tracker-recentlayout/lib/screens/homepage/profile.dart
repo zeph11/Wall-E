@@ -2,6 +2,7 @@ import 'package:expense_tracker/screens/Authenticate/signin.dart';
 import 'package:expense_tracker/screens/homepage/editdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/services/auth.dart';
+import 'package:expense_tracker/database.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -134,13 +135,399 @@ class _ProfilePageState extends State<ProfilePage> {
                                       fontSize: 20.0,
                                     )),
                               ],
-                            )
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Expected daily expense:',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('200',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Expected monthly expense:',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('15000',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Expected savings:',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('2000',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
                           ]),
                         )),
                   ],
                 ),
               ),
               //SizedBox(height: 20.0),
+
+              //SizedBox(height: 24.0),
+              Container(
+                //third  detail ko container
+                padding: EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Income Sources',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                          )),
+                    ),
+                    SizedBox(height: 5.0),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.green[100],
+                        borderRadius: BorderRadius.all(
+                          const Radius.circular(20),
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 20.0,
+                        horizontal: 20.0,
+                      ),
+                      //green income container
+
+                      child: Form(
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Investment',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Profit',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Property',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Salary',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Sale',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Others',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 24.0),
+              Container(
+                //third  detail ko container
+                padding: EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Expense Sources',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                          )),
+                    ),
+                    SizedBox(height: 5.0),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red[100],
+                        borderRadius: BorderRadius.all(
+                          const Radius.circular(20),
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 20.0,
+                        horizontal: 20.0,
+                      ),
+                      //green income container
+
+                      child: Form(
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Eating Out',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Education',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Health',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Bills',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Communication',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Groceries',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Travel',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Sports',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Entertainment',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Household',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Household',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Gifts',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                            SizedBox(height: 5.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Others',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                                Text('23400',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                    )),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20.0),
               Container(
                 //second detail ko container
                 padding: EdgeInsets.symmetric(
@@ -214,208 +601,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                     )),
                               ],
                             ),
-                            SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Savings:',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('23400',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 24.0),
-              Container(
-                //third  detail ko container
-                padding: EdgeInsets.symmetric(
-                  horizontal: 30.0,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Income Sources',
-                          style: TextStyle(
-                            fontSize: 25.0,
-                          )),
-                    ),
-                    SizedBox(height: 5.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.green[100],
-                        borderRadius: BorderRadius.all(
-                          const Radius.circular(20),
-                        ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 20.0,
-                      ),
-                      //green income container
-
-                      child: Form(
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Source A',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('23400',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Source B',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('23400',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Source C',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('23400',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Source D',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('23400',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 24.0),
-              Container(
-                //third  detail ko container
-                padding: EdgeInsets.symmetric(
-                  horizontal: 30.0,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Expense Sources',
-                          style: TextStyle(
-                            fontSize: 25.0,
-                          )),
-                    ),
-                    SizedBox(height: 5.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.red[100],
-                        borderRadius: BorderRadius.all(
-                          const Radius.circular(20),
-                        ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 20.0,
-                      ),
-                      //green income container
-
-                      child: Form(
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Source A',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('23400',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Source B',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('23400',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Source C',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('23400',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Source D',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('23400',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            )
                           ],
                         ),
                       ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:expense_tracker/database.dart';
 
 String name;
 
@@ -142,7 +143,8 @@ class _CollectInfoState extends State<CollectInfo> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      updateDatabse(dexpense, mexpense, esavings);
+                      await DatabaseService()
+                          .updateDatabse(dexpense, mexpense, esavings);
 
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => SignIn()));

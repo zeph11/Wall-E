@@ -84,6 +84,37 @@ class _DetailsPageState extends State<DetailsPage> {
                 SizedBox(
                   height: 20.0,
                 ),
+                Text('Change expected daily expenditure',
+                    style: TextStyle(color: Colors.black)),
+                SizedBox(
+                  height: 5.0,
+                ),
+                Container(
+                  width: 350,
+                  //alignment: ,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: new BorderRadius.circular(25.0),
+                      ),
+                      hintText: 'Enter new expected expenditure',
+                      hintStyle: TextStyle(color: Colors.white70),
+                      filled: true,
+                      fillColor: Color(0xff3282B8).withOpacity(0.9),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                    onChanged: (val) {
+                      //setState(() => amt = val);
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
                 Text('Change expected monthly expenditure',
                     style: TextStyle(color: Colors.black)),
                 SizedBox(
