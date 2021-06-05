@@ -8,14 +8,17 @@ class CashinModel {
   final int property;
   final int sale;
   final int others;
+  //int totalincome;
 
-  CashinModel(
-      {this.salary,
-      this.profit,
-      this.investment,
-      this.property,
-      this.sale,
-      this.others});
+  CashinModel({
+    this.salary,
+    this.profit,
+    this.investment,
+    this.property,
+    this.sale,
+    this.others,
+    // this.totalincome
+  });
 
   factory CashinModel.deserialize(DocumentSnapshot doc) {
     return CashinModel(
@@ -25,6 +28,7 @@ class CashinModel {
       property: doc['property'],
       sale: doc['sale'],
       others: doc['others'],
+      //totalincome: doc['totalincome'],
     );
   }
 }

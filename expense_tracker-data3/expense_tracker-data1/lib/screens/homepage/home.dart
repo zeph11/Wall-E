@@ -37,8 +37,7 @@ class _DashBoardState extends State<DashBoard> {
 
   void initState() {
     checkFirebaseUser();
-    createUserinfirebaseForCashIn();
-    createUserinfirebaseForCashOut();
+
     super.initState();
     pageController = PageController(initialPage: 0);
   }
@@ -83,6 +82,11 @@ class _DashBoardState extends State<DashBoard> {
       print("DEBUG PART 4");
 
       doc = await mainRef.doc(widget.initialUser.id).get();
+      createUserinfirebaseForCashIn();
+      createUserinfirebaseForCashOut();
+      int totalexpense = 0;
+      int totalincome = 0;
+      int available = 0;
     }
     currentUser = UserModel.deserialize(doc);
   }

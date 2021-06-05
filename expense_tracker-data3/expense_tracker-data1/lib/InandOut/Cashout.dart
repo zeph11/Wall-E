@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/Authentication/Authentication.dart';
+import 'package:expense_tracker/Models/cashoutmodel.dart';
 import 'package:expense_tracker/screens/homepage/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,6 +18,99 @@ class CashOut extends StatefulWidget {
 class _CashOutState extends State<CashOut> {
   String amt = '';
   String finalDate = '';
+  int eatingout = 0;
+  int education = 0;
+  int health = 0;
+  int bills = 0;
+  int communication = 0;
+  int groceries = 0;
+  int travel = 0;
+  int sports = 0;
+  int entertainment = 0;
+  int household = 0;
+  int gifts = 0;
+  int others = 0;
+
+  Future<void> updateSalary(
+      String uid,
+      int newEatingout,
+      int newEducation,
+      int newHealth,
+      int newBills,
+      int newCommunication,
+      int newGroceries,
+      int newTravel,
+      int newSports,
+      int newEntertainment,
+      int newHousehold,
+      int newGifts,
+      int newOthers) async {
+    FirebaseFirestore.instance.collection('CashOut').doc(uid).update({
+      "eatingout": newEatingout,
+      "education": newEducation,
+      "health": newHealth,
+      "bills": newBills,
+      "communication": newCommunication,
+      "groceries": newGroceries,
+      "travel": newTravel,
+      "sports": newSports,
+      "entertainment": newEntertainment,
+      "household": newHousehold,
+      "gifts": newGifts,
+      "others": newOthers,
+    });
+  }
+
+  Future<void> updateDBValues() async {
+    print("Debung point 1");
+    String id = FirebaseAuth.instance.currentUser.uid;
+    print(id);
+    DocumentSnapshot query =
+        await FirebaseFirestore.instance.collection('CashOut').doc(id).get();
+    CashoutModel newMod = CashoutModel.deserialize(query);
+    int finalEatingout = newMod.eatingout + eatingout;
+
+    int finalEducation = newMod.education + education;
+
+    int finalHealth = newMod.health + health;
+    int finalBills = newMod.bills + bills;
+    int finalCommunication = newMod.communication + communication;
+    int finalGroceries = newMod.groceries + groceries;
+    int finalTravel = newMod.travel + travel;
+    int finalSports = newMod.sports + sports;
+    int finalEntertainment = newMod.entertainment + entertainment;
+    int finalHousehold = newMod.household + household;
+    int finalGifts = newMod.gifts + gifts;
+    int finalOthers = newMod.others + others;
+
+    updateSalary(
+        id,
+        finalEatingout,
+        finalEducation,
+        finalHealth,
+        finalBills,
+        finalCommunication,
+        finalGroceries,
+        finalTravel,
+        finalSports,
+        finalEntertainment,
+        finalHousehold,
+        finalGifts,
+        finalOthers);
+  }
+
+  Color color1 = Colors.white;
+  Color color2 = Colors.black;
+
+  void _changeColor() {
+    setState(() {
+      color1 = Colors.black;
+      color2 = Colors.white;
+    });
+  }
+
+  bool pressed = true;
+  bool iconpressed = true;
 
   @override
   void initState() {
@@ -173,12 +269,22 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              fillColor: pressed
+                                                  ? Colors.orange[300]
+                                                  : Color(0xff3282B8),
+                                              onPressed: () {
+                                                eatingout = int.parse(amt);
+                                                setState(
+                                                    () => pressed = !pressed);
+                                                _changeColor();
+                                              },
                                               elevation: 2.0,
-                                              fillColor: Colors.orange[300],
+                                              //fillColor: Colors.orange[300],
                                               child: Icon(
                                                 Icons.restaurant,
-                                                color: Colors.white,
+                                                color: iconpressed
+                                                    ? color1
+                                                    : color2,
                                                 size: 25.0,
                                               ),
                                               padding: EdgeInsets.all(15.0),
@@ -194,7 +300,9 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                education = int.parse(amt);
+                                              },
                                               elevation: 2.0,
                                               fillColor: Colors.green[300],
                                               child: Icon(
@@ -215,7 +323,9 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                health = int.parse(amt);
+                                              },
                                               elevation: 2.0,
                                               fillColor: Colors.red[300],
                                               child: Icon(
@@ -245,7 +355,9 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                bills = int.parse(amt);
+                                              },
                                               elevation: 2.0,
                                               fillColor: Colors.indigo[200],
                                               child: Icon(
@@ -266,7 +378,9 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                communication = int.parse(amt);
+                                              },
                                               elevation: 2.0,
                                               fillColor: Colors.cyan[200],
                                               child: Icon(
@@ -287,7 +401,9 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                groceries = int.parse(amt);
+                                              },
                                               elevation: 2.0,
                                               fillColor: Colors.blueGrey[300],
                                               child: Icon(
@@ -317,7 +433,9 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                travel = int.parse(amt);
+                                              },
                                               elevation: 2.0,
                                               fillColor: Colors.teal[200],
                                               child: Icon(
@@ -338,7 +456,9 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                sports = int.parse(amt);
+                                              },
                                               elevation: 2.0,
                                               fillColor: Colors.yellow[900],
                                               child: Icon(
@@ -359,7 +479,9 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                entertainment = int.parse(amt);
+                                              },
                                               elevation: 2.0,
                                               fillColor: Colors.deepPurple[300],
                                               child: Icon(
@@ -389,7 +511,9 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                household = int.parse(amt);
+                                              },
                                               elevation: 2.0,
                                               fillColor: Colors.amberAccent,
                                               child: Icon(
@@ -410,7 +534,9 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                gifts = int.parse(amt);
+                                              },
                                               elevation: 2.0,
                                               fillColor: Colors.pink[200],
                                               child: Icon(
@@ -431,16 +557,20 @@ class _CashOutState extends State<CashOut> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                             RawMaterialButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                others = int.parse(amt);
+                                              },
                                               elevation: 2.0,
-                                              fillColor: Colors.purple[300],
+                                              fillColor: Colors.purple[200],
+                                              splashColor: Colors.grey,
                                               child: Icon(
                                                 Icons.more_horiz,
-                                                color: Colors.white,
+                                                color: color1,
                                                 size: 25.0,
                                               ),
                                               padding: EdgeInsets.all(15.0),
                                               shape: CircleBorder(),
+                                              hoverColor: Colors.red,
                                             ),
                                             Padding(
                                               padding:
@@ -458,10 +588,14 @@ class _CashOutState extends State<CashOut> {
                               alignment: Alignment.bottomRight,
                               child: RawMaterialButton(
                                 onPressed: () {
+                                  updateDBValues();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => DashBoard()),
+                                        builder: (context) => DashBoard(
+                                              auth: widget.auth,
+                                              initialUser: widget.outuserinfo,
+                                            )),
                                   );
                                 },
                                 elevation: 2.0,
@@ -549,26 +683,6 @@ class _CashOutState extends State<CashOut> {
                           SizedBox(
                             height: 20.0,
                           ),
-                          /* Text('Notes', style: TextStyle(color: Colors.black)),
-                          Container(
-                            width: 350,
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(25.0)),
-                                filled: true,
-                                fillColor: Colors.blue[200],
-                                labelText: 'Enter any Note',
-                              ),
-                              onChanged: (val) {
-                                setState(() => amt = val);
-                              },
-                            ),*/
-
-                          /* SizedBox(
-                            height: 20.0,
-                          ),*/
                           Text('From:', style: TextStyle(color: Colors.black)),
                           SizedBox(height: 15),
                           Container(
@@ -728,7 +842,10 @@ class _CashOutState extends State<CashOut> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DashBoard()),
+                                      builder: (context) => DashBoard(
+                                            auth: widget.auth,
+                                            initialUser: widget.outuserinfo,
+                                          )),
                                 );
                               },
                               elevation: 2.0,

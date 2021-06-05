@@ -496,6 +496,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     )),
               ],
             ),
+            // SizedBox(height: 5.0),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text('Total income',
+            //         style: TextStyle(
+            //           fontSize: 20.0,
+            //         )),
+            //     Text(userInfo.totalincome.toString(),
+            //         style: TextStyle(
+            //           fontSize: 20.0,
+            //         )),
+            //   ],
+            // ),
           ]);
         });
   }
@@ -676,6 +690,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     )),
               ],
             ),
+            // SizedBox(height: 5.0),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text('Total expense',
+            //         style: TextStyle(
+            //           fontSize: 20.0,
+            //         )),
+            //     Text(userInfo.totalexpense.toString(),
+            //         style: TextStyle(
+            //           fontSize: 20.0,
+            //         )),
+            //   ],
+            // ),
           ]);
         });
   }

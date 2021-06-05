@@ -14,6 +14,7 @@ class CashoutModel {
   final int household;
   final int gifts;
   final int others;
+  // int totalexpense;
 
   CashoutModel({
     this.eatingout,
@@ -28,6 +29,7 @@ class CashoutModel {
     this.household,
     this.gifts,
     this.others,
+    //this.totalexpense,
   });
 
   factory CashoutModel.deserialize(DocumentSnapshot doc) {
@@ -44,6 +46,7 @@ class CashoutModel {
       household: doc['household'],
       gifts: doc['gifts'],
       others: doc['others'],
+      // totalexpense: doc['totalexpense'],
     );
   }
 }

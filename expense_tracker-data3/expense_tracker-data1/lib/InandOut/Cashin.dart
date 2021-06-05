@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/Authentication/Authentication.dart';
+import 'package:expense_tracker/Models/UserMOdel.dart';
 import 'package:expense_tracker/Models/cashinmodel.dart';
 import 'package:expense_tracker/screens/homepage/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
 // CashinModel currentUser;
 
-final cashinRef = FirebaseFirestore.instance.collection("CashIn");
+//final cashinRef = FirebaseFirestore.instance.collection("CashIn").doc();
 
 class CashIn extends StatefulWidget {
   final AuthBase auth;
@@ -30,20 +32,36 @@ class _CashInState extends State<CashIn> {
   int property = 0;
   int sale = 0;
   int others = 0;
-  int oldsalary;
 
-  // updateDatabase(int salary) {
-  //   return StreamBuilder(
-  //       stream: mainRef.doc(widget.inuserinfo.id).snapshots(),
-  //       builder: (context, snapshot) {
-  //         CashinModel userInfo = CashinModel.deserialize(snapshot.data);
-  //           print('abc');
-  //         oldsalary = userInfo.salary + salary;
-  //         print('abc');
-  //         print(oldsalary);
-  //         return null;
-  //       });
-  // }
+  Future<void> updateSalary(String uid, int newSalary, int newProfit,
+      int newInvestment, int newProperty, int newSale, int newOthers) async {
+    FirebaseFirestore.instance.collection('CashIn').doc(uid).update({
+      "salary": newSalary,
+      "profit": newProfit,
+      "investment": newInvestment,
+      "property": newProperty,
+      "sale": newSale,
+      "others": newOthers,
+    });
+  }
+
+  Future<void> updateDBValues() async {
+    print("Debung point 1");
+    String id = FirebaseAuth.instance.currentUser.uid;
+    print(id);
+    DocumentSnapshot query =
+        await FirebaseFirestore.instance.collection('CashIn').doc(id).get();
+    CashinModel newMod = CashinModel.deserialize(query);
+    int finalSalary = newMod.salary + salary;
+
+    int finalProfit = newMod.profit + profit;
+    int finalInvestment = newMod.investment + investment;
+    int finalProperty = newMod.property + property;
+    int finalSale = newMod.sale + sale;
+    int finalOthers = newMod.others + others;
+    updateSalary(id, finalSalary, finalProfit, finalInvestment, finalProperty,
+        finalSale, finalOthers);
+  }
 
   @override
   void initState() {
@@ -341,8 +359,8 @@ class _CashInState extends State<CashIn> {
                               alignment: Alignment.bottomRight,
                               child: RawMaterialButton(
                                 onPressed: () {
-                                  // print(salary);
-                                  // readDatabase();
+                                  updateDBValues();
+
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

@@ -8,6 +8,7 @@ import 'package:expense_tracker/Models/cashoutmodel.dart';
 import 'package:expense_tracker/screens/Authenticate/info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'home.dart';
 
 UserModel currentUser;
 CashinModel currentUser1;
@@ -29,8 +30,45 @@ class DashBoardPage extends StatefulWidget {
 
 class _DashBoardPageState extends State<DashBoardPage> {
   String finalDate = '';
+  // int totalexpense = 0;
+  // int totalincome = 0;
+  // int available = 0;
+
+  // Future<void> updateDBValues() async {
+  //   print("Debung point 1");
+  //   String id = FirebaseAuth.instance.currentUser.uid;
+  //   print(id);
+  //   DocumentSnapshot query =
+  //       await FirebaseFirestore.instance.collection('CashIn').doc(id).get();
+  //   CashinModel newMod = CashinModel.deserialize(query);
+  //   CashoutModel neww = CashoutModel.deserialize(query);
+  //   neww.totalexpense = neww.eatingout +
+  //       neww.education +
+  //       neww.health +
+  //       neww.bills +
+  //       neww.communication +
+  //       neww.groceries +
+  //       neww.travel +
+  //       neww.sports +
+  //       neww.entertainment +
+  //       neww.household +
+  //       neww.gifts +
+  //       neww.others;
+
+  //   newMod.totalincome = newMod.salary +
+  //       newMod.profit +
+  //       newMod.investment +
+  //       newMod.property +
+  //       newMod.sale +
+  //       newMod.others;
+
+  //   //available = newMod.totalincome - neww.totalexpense;
+  //   String top = newMod.totalincome.toString();
+  // }
+
   @override
   void initState() {
+    //updateDBValues();
     //getCurrentDate()
     {
       var date = new DateTime.now().toString();
@@ -171,7 +209,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      '34000',
+                      //'$available',
+                      'bhy',
+
                       style: TextStyle(fontSize: 30.0, color: Colors.blue[800]),
                     ),
                   ],
@@ -203,22 +243,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                           ),
                           //income container
                           alignment: Alignment.bottomLeft,
-                          child: Column(
-                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Total Income',
-                                style: TextStyle(
-                                    fontSize: 28.0, color: Colors.green[800]),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                '340000',
-                                style: TextStyle(
-                                    fontSize: 28.0, color: Colors.green[800]),
-                              ),
-                            ],
-                          )),
+                          child: _displayincome()),
                       Container(
                           decoration: BoxDecoration(
                             color: Colors.red[100],
@@ -232,22 +257,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                           ),
                           //expense container
                           alignment: Alignment.bottomLeft,
-                          child: Column(
-                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Total Expense',
-                                style: TextStyle(
-                                    fontSize: 28.0, color: Colors.red[800]),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                '3400',
-                                style: TextStyle(
-                                    fontSize: 28.0, color: Colors.red[800]),
-                              ),
-                            ],
-                          )),
+                          child: _displayexpense()),
                     ],
                   )), //container2
               SizedBox(height: 40),
@@ -274,5 +284,76 @@ class _DashBoardPageState extends State<DashBoardPage> {
         ),
       ),
     );
+  }
+
+  _displayincome() {
+    return StreamBuilder(
+        stream: cashinRef.doc(widget.dashuserInformation.id).snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+          CashinModel newMod = CashinModel.deserialize(snapshot.data);
+          int totalincome = 0;
+          totalincome = newMod.salary +
+              newMod.profit +
+              newMod.investment +
+              newMod.property +
+              newMod.sale +
+              newMod.others;
+
+          return Column(
+            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total Income',
+                style: TextStyle(fontSize: 28.0, color: Colors.green[800]),
+              ),
+              SizedBox(height: 10),
+              Text(
+                '$totalincome',
+                style: TextStyle(fontSize: 28.0, color: Colors.green[800]),
+              ),
+            ],
+          );
+        });
+  }
+
+  _displayexpense() {
+    return StreamBuilder(
+        stream: cashoutRef.doc(widget.dashuserInformation.id).snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+          CashoutModel neww = CashoutModel.deserialize(snapshot.data);
+          int totalexpense = 0;
+          totalexpense = neww.eatingout +
+              neww.education +
+              neww.health +
+              neww.bills +
+              neww.communication +
+              neww.groceries +
+              neww.travel +
+              neww.sports +
+              neww.entertainment +
+              neww.household +
+              neww.gifts +
+              neww.others;
+          return Column(
+            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total Expense',
+                style: TextStyle(fontSize: 28.0, color: Colors.red[800]),
+              ),
+              SizedBox(height: 10),
+              Text(
+                '$totalexpense',
+                style: TextStyle(fontSize: 28.0, color: Colors.red[800]),
+              ),
+            ],
+          );
+        });
   }
 }
