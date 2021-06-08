@@ -1,0 +1,4 @@
+// class initiialData {
+//   final salary;
+
+// }
