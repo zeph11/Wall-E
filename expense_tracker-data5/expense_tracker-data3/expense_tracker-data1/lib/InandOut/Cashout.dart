@@ -294,6 +294,7 @@ class _CashOutState extends State<CashOut> {
                                           children: <Widget>[
                                             RawMaterialButton(
                                               onPressed: () {
+                                                cat = 'Eating Out';
                                                 eatingout = int.parse(amt);
                                                 setState(() {
                                                   i1 = !i1;
@@ -326,7 +327,7 @@ class _CashOutState extends State<CashOut> {
                                           children: <Widget>[
                                             RawMaterialButton(
                                               onPressed: () {
-                                                cat = 'Eating Out';
+                                                cat = 'Education';
                                                 education = int.parse(amt);
                                                 setState(() {
                                                   i2 = !i2;

@@ -64,6 +64,7 @@ FirebaseAuth auth = FirebaseAuth.instance;
 final mainRef = FirebaseFirestore.instance.collection('user');
 final historyRef = FirebaseFirestore.instance.collection('history');
 final cashInRerf = FirebaseFirestore.instance.collection('CashIn');
+final cashOutRef = FirebaseFirestore.instance.collection('CashOut');
 
 class DashBoardPage extends StatefulWidget {
   final AuthBase auth;
@@ -77,8 +78,6 @@ class DashBoardPage extends StatefulWidget {
 
 class _DashBoardPageState extends State<DashBoardPage> {
   String finalDate = '';
-
-  final items = ['abc', 'cdf', 'ngjdj', 'hjdh', 'jnsjd'];
 
   void displayavailable() async {
     String id = FirebaseAuth.instance.currentUser.uid;

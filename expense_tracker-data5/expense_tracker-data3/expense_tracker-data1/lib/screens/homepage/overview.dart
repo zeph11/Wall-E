@@ -66,6 +66,19 @@ class _OverviewPageState extends State<OverviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        bottom: TabBar(
+          indicatorColor: Colors.white,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white.withOpacity(0.4),
+          tabs: [
+            Tab(
+              text: "Expense",
+            ),
+            Tab(
+              text: "Income",
+            ),
+          ],
+        ),
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xff3282B8),
         elevation: 0.0, //removes dropshadow
@@ -74,95 +87,58 @@ class _OverviewPageState extends State<OverviewPage> {
               fontSize: 27.0,
             )),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: 700,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18.0),
-            color: Colors.green[200],
-          ),
-          margin: EdgeInsets.all(10.0),
-          // padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              // Container(
-              //   margin: EdgeInsets.symmetric(vertical: 100),
-              //   // height: 700,
-              //   child: Column(
-              //     //mainAxisSize: MainAxisSize.max,
-              //     //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //     children: [
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //         children: [
-              //           IndicatorWidget(
-              //             title: 'RUNNING',
-              //             subtitle: salary.toString(),
-              //           ),
-              //           IndicatorWidget(
-              //             title: 'profit',
-              //             subtitle: profit.toString(),
-              //           ),
-              //           IndicatorWidget(
-              //             title: 'invest',
-              //             subtitle: invest.toString(),
-              //           ),
-              //         ],
-              //       ),
-              //       SizedBox(
-              //         height: 20,
-              //       ),
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //         children: [
-              //           IndicatorWidget(
-              //             title: 'property',
-              //             subtitle: property.toString(),
-              //           ),
-              //           IndicatorWidget(
-              //             title: 'sale',
-              //             subtitle: sale.toString(),
-              //           ),
-              //           IndicatorWidget(
-              //             title: 'other',
-              //             subtitle: other.toString(),
-              //           )
-              //         ],
-              //       )
-              //     ],
-              //   ),
-              // ),
-              Container(
-                width: 350,
-                // Pie Chart is available in fl_chart package
-                child: PieChart(
-                  PieChartData(
-                    borderData: FlBorderData(show: false),
-                    centerSpaceRadius: 50.0,
-                    sectionsSpace: 0.0,
-                    startDegreeOffset: 30,
-                    // actual curves and data come from this function result.
-                    sections: _buildPieChartCurves(),
-                    // This is to make chart interactive when someone touch
-                    // pieTouchData: PieTouchData(
-                    //   touchCallback: (pieTouchResponse) {
-                    //     setState(() {
-                    //       if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                    //           pieTouchResponse.touchInput is FlPanEnd) {
-                    //         _touchedIndex = -1;
-                    //       } else {
-                    //         _touchedIndex = pieTouchResponse.touchedSectionIndex;
-                    //       }
-                    //     });
-                    //   },
-                    // ),
+      body: TabBarView(children: [
+        SingleChildScrollView(
+          child: Container(
+            height: 700,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18.0),
+              color: Colors.green[200],
+            ),
+            margin: EdgeInsets.all(10.0),
+            // padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  width: 350,
+                  // Pie Chart is available in fl_chart package
+                  child: PieChart(
+                    PieChartData(
+                      borderData: FlBorderData(show: false),
+                      centerSpaceRadius: 50.0,
+                      sectionsSpace: 0.0,
+                      startDegreeOffset: 30,
+                      // actual curves and data come from this function result.
+                      sections: _buildPieChartCurves(),
+                      // This is to make chart interactive when someone touch
+                      // pieTouchData: PieTouchData(
+                      //   touchCallback: (pieTouchResponse) {
+                      //     setState(() {
+                      //       if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                      //           pieTouchResponse.touchInput is FlPanEnd) {
+                      //         _touchedIndex = -1;
+                      //       } else {
+                      //         _touchedIndex = pieTouchResponse.touchedSectionIndex;
+                      //       }
+                      //     });
+                      //   },
+                      // ),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
+        SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 40.0,
+              horizontal: 50.0,
+            ),
+          ), //
+        )
+      ]),
     );
     //alignment:
   }
@@ -232,80 +208,6 @@ class _OverviewPageState extends State<OverviewPage> {
       ],
     ));
   }
-
-  // _buildUserData() {
-  //   return StreamBuilder(
-  //       stream: cashinRef.doc(widget.userover.id).snapshots(),
-  //       builder: (context, snapshot) {
-  //         if (!snapshot.hasData) {
-  //           return Center(child: CircularProgressIndicator());
-  //         }
-  //         CashinModel userInfo = CashinModel.deserialize(snapshot.data);
-  //         return Container(
-  //           height: 400,
-  //           decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.circular(18.0),
-  //             color: Colors.green[200],
-  //           ),
-  //           margin: EdgeInsets.all(10.0),
-  //           padding: const EdgeInsets.all(16),
-  //           child: Row(
-  //             children: [
-  //               Container(
-  //                 width: 250,
-  //                 // Pie Chart is available in fl_chart package
-  //                 child: PieChart(
-  //                   PieChartData(
-  //                     borderData: FlBorderData(show: false),
-  //                     centerSpaceRadius: 50.0,
-  //                     sectionsSpace: 0.0,
-  //                     startDegreeOffset: 30,
-  //                     // actual curves and data come from this function result.
-  //                     sections: _buildPieChartCurves(),
-  //                     // This is to make chart interactive when someone touch
-  //                     // pieTouchData: PieTouchData(
-  //                     //   touchCallback: (pieTouchResponse) {
-  //                     //     setState(() {
-  //                     //       if (pieTouchResponse.touchInput is FlLongPressEnd ||
-  //                     //           pieTouchResponse.touchInput is FlPanEnd) {
-  //                     //         _touchedIndex = -1;
-  //                     //       } else {
-  //                     //         _touchedIndex = pieTouchResponse.touchedSectionIndex;
-  //                     //       }
-  //                     //     });
-  //                     //   },
-  //                     // ),
-  //                   ),
-  //                 ),
-  //               ),
-  //               // Expanded(
-  //               //   child: Container(
-  //               //     margin: EdgeInsets.symmetric(vertical: 100),
-  //               //     child: Column(
-  //               //       mainAxisSize: MainAxisSize.max,
-  //               //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //               //       children: [
-  //               //         IndicatorWidget(
-  //               //           title: 'RUNNING',
-  //               //           subtitle: '10 KM',
-  //               //         ),
-  //               //         IndicatorWidget(
-  //               //           title: 'CYCLING',
-  //               //           subtitle: '10 KM',
-  //               //         ),
-  //               //         IndicatorWidget(
-  //               //           title: 'SWIMMING',
-  //               //           subtitle: '10 KM',
-  //               //         )
-  //               //       ],
-  //               //     ),
-  //               //   ),
-  //               // )
-  //             ],
-  //           ),
-  //         );
-  //       });
-
 }
 
 

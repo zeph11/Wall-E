@@ -78,17 +78,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   //yo column heading ra bhitra ko batta ko lai
                   children: <Widget>[
-                    RaisedButton(
-                        color: Colors.red[800],
-                        padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Text(
-                          'LOG OUT',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: _logout),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -204,124 +193,138 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
               ),
-              SizedBox(height: 20.0),
-              Container(
-                //second detail ko container
-                padding: EdgeInsets.symmetric(
-                  horizontal: 30.0,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text('Debt',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 25.0,
-                              )),
-                        ),
-                        InkWell(
-                            child: Text('Add Persons',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  decoration: TextDecoration.underline,
-                                )),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddPerson()),
-                              );
-                            }),
-                      ],
-                    ),
-                    SizedBox(height: 5.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.purple[100],
-                        borderRadius: BorderRadius.all(
-                          const Radius.circular(20),
-                        ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 20.0,
-                      ),
-                      //purple container
+              // SizedBox(height: 20.0),
+              // Container(
+              //   //second detail ko container
+              //   padding: EdgeInsets.symmetric(
+              //     horizontal: 30.0,
+              //   ),
+              //   child: Column(
+              //     children: <Widget>[
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Container(
+              //             alignment: Alignment.centerLeft,
+              //             child: Text('Debt',
+              //                 textAlign: TextAlign.left,
+              //                 style: TextStyle(
+              //                   fontSize: 25.0,
+              //                 )),
+              //           ),
+              //           InkWell(
+              //               child: Text('Add Persons',
+              //                   style: TextStyle(
+              //                     fontSize: 18.0,
+              //                     decoration: TextDecoration.underline,
+              //                   )),
+              //               onTap: () {
+              //                 Navigator.push(
+              //                   context,
+              //                   MaterialPageRoute(
+              //                       builder: (context) => AddPerson()),
+              //                 );
+              //               }),
+              //         ],
+              //       ),
+              //       SizedBox(height: 5.0),
+              //       Container(
+              //         decoration: BoxDecoration(
+              //           color: Colors.purple[100],
+              //           borderRadius: BorderRadius.all(
+              //             const Radius.circular(20),
+              //           ),
+              //         ),
+              //         padding: EdgeInsets.symmetric(
+              //           vertical: 20.0,
+              //           horizontal: 20.0,
+              //         ),
+              //         //purple container
 
-                      child: Form(
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Person 1',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('0',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Person 2',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('0',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            ),
-                            SizedBox(height: 5.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Person 3',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('0',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Person 4',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                                Text('0',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                    )),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              //         child: Form(
+              //           child: Column(
+              //             children: <Widget>[
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 children: [
+              //                   Text('Person 1',
+              //                       style: TextStyle(
+              //                         fontSize: 20.0,
+              //                       )),
+              //                   Text('0',
+              //                       style: TextStyle(
+              //                         fontSize: 20.0,
+              //                       )),
+              //                 ],
+              //               ),
+              //               SizedBox(height: 5.0),
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 children: [
+              //                   Text('Person 2',
+              //                       style: TextStyle(
+              //                         fontSize: 20.0,
+              //                       )),
+              //                   Text('0',
+              //                       style: TextStyle(
+              //                         fontSize: 20.0,
+              //                       )),
+              //                 ],
+              //               ),
+              //               SizedBox(height: 5.0),
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 children: [
+              //                   Text('Person 3',
+              //                       style: TextStyle(
+              //                         fontSize: 20.0,
+              //                       )),
+              //                   Text('0',
+              //                       style: TextStyle(
+              //                         fontSize: 20.0,
+              //                       )),
+              //                 ],
+              //               ),
+              //               Row(
+              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 children: [
+              //                   Text('Person 4',
+              //                       style: TextStyle(
+              //                         fontSize: 20.0,
+              //                       )),
+              //                   Text('0',
+              //                       style: TextStyle(
+              //                         fontSize: 20.0,
+              //                       )),
+              //                 ],
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(height: 25.0),
+              RaisedButton(
+                  color: Colors.red[800],
+                  padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0),
+                  ),
+                  child: Text(
+                    'LOG OUT',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: _logout),
+              SizedBox(height: 20),
               // ignore: deprecated_member_use
             ],
           ),
         ),
+        //]),
       ),
+      // ),
     );
   }
 
@@ -527,189 +530,192 @@ class _ProfilePageState extends State<ProfilePage> {
             return Center(child: CircularProgressIndicator());
           }
           CashoutModel userInfo = CashoutModel.deserialize(snapshot.data);
-          return Column(children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Eating Out',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.eatingout.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Education',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.education.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Health',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.health.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Bills',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.bills.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Communication',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.communication.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Groceries',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.groceries.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Travel',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.travel.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Sports',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.sports.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Entertainment',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.entertainment.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Household',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.household.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Gifts',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.gifts.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Others',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-                Text(userInfo.others.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    )),
-              ],
-            ),
-            // SizedBox(height: 5.0),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text('Total expense',
-            //         style: TextStyle(
-            //           fontSize: 20.0,
-            //         )),
-            //     Text(userInfo.totalexpense.toString(),
-            //         style: TextStyle(
-            //           fontSize: 20.0,
-            //         )),
-            //   ],
-            // ),
-          ]);
+          return Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Eating Out',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.eatingout.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Education',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.education.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Health',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.health.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Bills',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.bills.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Communication',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.communication.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Groceries',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.groceries.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Travel',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.travel.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Sports',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.sports.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Entertainment',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.entertainment.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Household',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.household.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Gifts',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.gifts.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Others',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                  Text(userInfo.others.toString(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      )),
+                ],
+              ),
+
+              // SizedBox(height: 5.0),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text('Total expense',
+              //         style: TextStyle(
+              //           fontSize: 20.0,
+              //         )),
+              //     Text(userInfo.totalexpense.toString(),
+              //         style: TextStyle(
+              //           fontSize: 20.0,
+              //         )),
+              //   ],
+              // ),
+            ],
+          );
         });
   }
 }

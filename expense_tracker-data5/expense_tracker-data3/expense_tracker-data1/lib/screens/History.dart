@@ -25,7 +25,7 @@ class history extends StatelessWidget {
             horizontal: 20.0,
           ),
           decoration: BoxDecoration(
-            color: Colors.purple[50],
+            color: Colors.blueGrey[100],
             borderRadius: BorderRadius.all(
               const Radius.circular(20),
             ),
