@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/Authentication/Authentication.dart';
-import 'package:expense_tracker/Models/UserMOdel.dart';
 import 'package:expense_tracker/Models/cashinmodel.dart';
 import 'package:expense_tracker/Models/cashoutmodel.dart';
 import 'package:expense_tracker/screens/homepage/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 
 // CashinModel currentUser;
@@ -308,7 +306,7 @@ class _CashInState extends State<CashIn> {
                                             RawMaterialButton(
                                               onPressed: () {
                                                 profit = int.parse(amt);
-                                                cat = 'profit';
+                                                cat = 'Profit';
 
                                                 setState(() {
                                                   i2 = !i2;
@@ -343,7 +341,7 @@ class _CashInState extends State<CashIn> {
                                             RawMaterialButton(
                                               onPressed: () {
                                                 investment = int.parse(amt);
-                                                cat = 'investment';
+                                                cat = 'Investment';
 
                                                 setState(() {
                                                   i3 = !i3;
@@ -419,7 +417,7 @@ class _CashInState extends State<CashIn> {
                                             RawMaterialButton(
                                               onPressed: () {
                                                 sale = int.parse(amt);
-                                                cat = 'sale';
+                                                cat = 'Sale';
 
                                                 setState(() {
                                                   i5 = !i5;
@@ -454,7 +452,7 @@ class _CashInState extends State<CashIn> {
                                             RawMaterialButton(
                                               onPressed: () {
                                                 others = int.parse(amt);
-                                                cat = 'others';
+                                                cat = 'Others';
 
                                                 setState(() {
                                                   i6 = !i6;

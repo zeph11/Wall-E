@@ -3,7 +3,6 @@
 
 import 'package:expense_tracker/Authentication/Authentication.dart';
 import 'package:expense_tracker/screens/Authenticate/register.dart';
-import 'package:expense_tracker/screens/homepage/home.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expense_tracker/services/auth.dart';
@@ -27,6 +26,7 @@ class _SignInState extends State<SignIn> {
   void dispose() {
     _email.dispose();
     _password.dispose();
+    super.dispose();
   }
 
   bool checkIfFormICorrect() {

@@ -1,11 +1,6 @@
 import 'package:expense_tracker/Authentication/Authentication.dart';
-import 'package:expense_tracker/Models/UserMOdel.dart';
-import 'package:expense_tracker/screens/Authenticate/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:expense_tracker/database.dart';
-import 'package:expense_tracker/services/auth.dart';
-import 'package:expense_tracker/services/user.dart';
 
 class CollectInfo extends StatefulWidget {
   final UserClass intialData;

@@ -6,8 +6,6 @@ import 'dart:ui';
 import 'package:expense_tracker/Authentication/Authentication.dart';
 import 'package:expense_tracker/screens/Authenticate/signin.dart';
 import 'package:flutter/material.dart';
-//import 'package:expense_tracker/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Register extends StatefulWidget {
   final AuthBase auth;
@@ -46,6 +44,10 @@ class _RegisterState extends State<Register> {
         await widget.auth.createEmailPassword(email, password);
         Navigator.pop(context);
       } catch (e) {
+        // if (e.code == 'email-already-in-use') {
+
+        //   //print('The account already exists for that email.');
+        // }
         print(e.toString());
       }
     }
@@ -122,6 +124,7 @@ class _RegisterState extends State<Register> {
                           if (val == null || val.isEmpty) {
                             return 'Enter an email';
                           }
+
                           return null;
                         },
                         decoration: InputDecoration(
@@ -181,6 +184,7 @@ class _RegisterState extends State<Register> {
                       ),
                       onPressed: _signUpWithEmail,
                     ),
+
                     SizedBox(height: 35.0),
                     Text('Already registered?',
                         style: TextStyle(color: Colors.white)),

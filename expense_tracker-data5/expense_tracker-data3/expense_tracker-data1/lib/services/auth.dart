@@ -1,8 +1,6 @@
 //connect to the database for authenciation
-import 'package:expense_tracker/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'user.dart';
-import 'package:expense_tracker/screens/Authenticate/register.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

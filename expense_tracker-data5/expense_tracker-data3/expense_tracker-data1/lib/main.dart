@@ -2,7 +2,6 @@ import 'package:expense_tracker/Authentication/Authentication.dart';
 import 'package:expense_tracker/Authentication/LandingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

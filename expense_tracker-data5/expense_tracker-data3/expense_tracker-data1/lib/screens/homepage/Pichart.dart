@@ -527,46 +527,45 @@ class PirChartDataView extends StatelessWidget {
       // Increase the radius of section when touched.
       final double radius = isTouched ? 40 : 30;
 
-      // Ideally this data come from API and then returned, or you can modify it any way as per the data arranged in your app :slight_smile:
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Colors.pink,
+            color: Colors.orange[300],
             value: salaryVal,
             title: '', // this cannot be left blank
             radius: radius,
           );
         case 1:
           return PieChartSectionData(
-            color: Colors.grey,
+            color: Colors.green[300],
             value: profitVal,
             title: '',
             radius: radius,
           );
         case 2:
           return PieChartSectionData(
-            color: Colors.brown,
+            color: Colors.red[300],
             value: investVal,
             title: '',
             radius: radius,
           );
         case 3:
           return PieChartSectionData(
-            color: Colors.green,
+            color: Colors.indigo[200],
             value: propertyVal,
             title: '',
             radius: radius,
           );
         case 4:
           return PieChartSectionData(
-            color: Colors.purple,
+            color: Colors.cyan[200],
             value: salesVal,
             title: '',
             radius: radius,
           );
         case 5:
           return PieChartSectionData(
-            color: Colors.orange,
+            color: Colors.blueGrey[200],
             value: otherVal.toDouble(),
             title: '',
             radius: radius,
@@ -600,63 +599,63 @@ class PirChartDataView extends StatelessWidget {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Colors.pink,
+            color: Colors.orange[300],
             value: eatingoutVal,
             title: '', // this cannot be left blank
             radius: radius,
           );
         case 1:
           return PieChartSectionData(
-            color: Colors.grey,
+            color: Colors.green[300],
             value: educationVal,
             title: '',
             radius: radius,
           );
         case 2:
           return PieChartSectionData(
-            color: Colors.brown,
+            color: Colors.red[300],
             value: healthVal,
             title: '',
             radius: radius,
           );
         case 3:
           return PieChartSectionData(
-            color: Colors.green,
+            color: Colors.indigo[200],
             value: billsVal,
             title: '',
             radius: radius,
           );
         case 4:
           return PieChartSectionData(
-            color: Colors.purple,
+            color: Colors.cyan[200],
             value: communicationVal,
             title: '',
             radius: radius,
           );
         case 5:
           return PieChartSectionData(
-            color: Colors.orange,
+            color: Colors.blueGrey[300],
             value: groceriesVal.toDouble(),
             title: '',
             radius: radius,
           );
         case 6:
           return PieChartSectionData(
-            color: Colors.pink,
+            color: Colors.teal[500],
             value: travelVal,
             title: '', // this cannot be left blank
             radius: radius,
           );
         case 7:
           return PieChartSectionData(
-            color: Colors.grey,
+            color: Colors.yellow[900],
             value: sportsyVal,
             title: '',
             radius: radius,
           );
         case 8:
           return PieChartSectionData(
-            color: Colors.brown,
+            color: Colors.deepPurple[300],
             value: entertainmentVal,
             title: '',
             radius: radius,
@@ -664,21 +663,21 @@ class PirChartDataView extends StatelessWidget {
 
         case 9:
           return PieChartSectionData(
-            color: Colors.purple,
+            color: Colors.amberAccent,
             value: householdVal,
             title: '',
             radius: radius,
           );
         case 10:
           return PieChartSectionData(
-            color: Colors.orange,
+            color: Colors.pink[200],
             value: giftsVal.toDouble(),
             title: '',
             radius: radius,
           );
         case 11:
           return PieChartSectionData(
-            color: Colors.orange,
+            color: Colors.blue[200],
             value: othersVal.toDouble(),
             title: '',
             radius: radius,

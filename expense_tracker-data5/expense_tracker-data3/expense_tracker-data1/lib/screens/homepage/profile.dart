@@ -1,19 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/Authentication/Authentication.dart';
-import 'package:expense_tracker/InandOut/Cashin.dart';
 import 'package:expense_tracker/Models/UserMOdel.dart';
 import 'package:expense_tracker/Models/cashinmodel.dart';
 import 'package:expense_tracker/Models/cashoutmodel.dart';
-import 'package:expense_tracker/screens/Authenticate/signin.dart';
+import 'package:expense_tracker/Models/debt.dart';
 import 'package:expense_tracker/screens/homepage/addperson.dart';
 import 'package:expense_tracker/screens/homepage/dashboard.dart';
+import 'package:expense_tracker/screens/homepage/debtdisplay.dart';
 import 'package:expense_tracker/screens/homepage/editdetails.dart';
-import 'package:expense_tracker/screens/homepage/home.dart';
 
 import 'package:flutter/material.dart';
 
 final cashinRef = FirebaseFirestore.instance.collection("CashIn");
 final cashoutRef = FirebaseFirestore.instance.collection("CashOut");
+final debtRef = FirebaseFirestore.instance.collection('debt');
+debtModel currentUser3;
 
 class ProfilePage extends StatefulWidget {
   final AuthBase auth;
@@ -25,13 +26,24 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  Stream<List<debtModel>> getdebt() {
+    final snapshots = debtRef
+        .doc(auth.currentUser.uid)
+        .collection('debtid')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
+
+    return snapshots.map((event) =>
+        event.docs.map((snapshot) => debtModel.deserialize(snapshot)).toList());
+  }
+
   Future<void> _logout() async {
     try {
       await widget.auth.signOut();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SignIn(auth: widget.auth)),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => SignIn(auth: widget.auth)),
+      // );
     } catch (e) {
       print(e.toString());
     }
@@ -193,119 +205,81 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
               ),
-              // SizedBox(height: 20.0),
-              // Container(
-              //   //second detail ko container
-              //   padding: EdgeInsets.symmetric(
-              //     horizontal: 30.0,
-              //   ),
-              //   child: Column(
-              //     children: <Widget>[
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           Container(
-              //             alignment: Alignment.centerLeft,
-              //             child: Text('Debt',
-              //                 textAlign: TextAlign.left,
-              //                 style: TextStyle(
-              //                   fontSize: 25.0,
-              //                 )),
-              //           ),
-              //           InkWell(
-              //               child: Text('Add Persons',
-              //                   style: TextStyle(
-              //                     fontSize: 18.0,
-              //                     decoration: TextDecoration.underline,
-              //                   )),
-              //               onTap: () {
-              //                 Navigator.push(
-              //                   context,
-              //                   MaterialPageRoute(
-              //                       builder: (context) => AddPerson()),
-              //                 );
-              //               }),
-              //         ],
-              //       ),
-              //       SizedBox(height: 5.0),
-              //       Container(
-              //         decoration: BoxDecoration(
-              //           color: Colors.purple[100],
-              //           borderRadius: BorderRadius.all(
-              //             const Radius.circular(20),
-              //           ),
-              //         ),
-              //         padding: EdgeInsets.symmetric(
-              //           vertical: 20.0,
-              //           horizontal: 20.0,
-              //         ),
-              //         //purple container
+              SizedBox(height: 20.0),
+              Container(
+                //second detail ko container
+                padding: EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Debt',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 25.0,
+                              )),
+                        ),
+                        InkWell(
+                            child: Text('Add Persons',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  decoration: TextDecoration.underline,
+                                )),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddPerson()),
+                              );
+                            }),
+                      ],
+                    ),
+                    SizedBox(height: 5.0),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.purple[100],
+                        borderRadius: BorderRadius.all(
+                          const Radius.circular(20),
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 20.0,
+                        horizontal: 20.0,
+                      ),
+                      //purple container
 
-              //         child: Form(
-              //           child: Column(
-              //             children: <Widget>[
-              //               Row(
-              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //                 children: [
-              //                   Text('Person 1',
-              //                       style: TextStyle(
-              //                         fontSize: 20.0,
-              //                       )),
-              //                   Text('0',
-              //                       style: TextStyle(
-              //                         fontSize: 20.0,
-              //                       )),
-              //                 ],
-              //               ),
-              //               SizedBox(height: 5.0),
-              //               Row(
-              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //                 children: [
-              //                   Text('Person 2',
-              //                       style: TextStyle(
-              //                         fontSize: 20.0,
-              //                       )),
-              //                   Text('0',
-              //                       style: TextStyle(
-              //                         fontSize: 20.0,
-              //                       )),
-              //                 ],
-              //               ),
-              //               SizedBox(height: 5.0),
-              //               Row(
-              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //                 children: [
-              //                   Text('Person 3',
-              //                       style: TextStyle(
-              //                         fontSize: 20.0,
-              //                       )),
-              //                   Text('0',
-              //                       style: TextStyle(
-              //                         fontSize: 20.0,
-              //                       )),
-              //                 ],
-              //               ),
-              //               Row(
-              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //                 children: [
-              //                   Text('Person 4',
-              //                       style: TextStyle(
-              //                         fontSize: 20.0,
-              //                       )),
-              //                   Text('0',
-              //                       style: TextStyle(
-              //                         fontSize: 20.0,
-              //                       )),
-              //                 ],
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+                      // child: _builddebtUIFuture(),
+                      // Form(
+                      //   child: Column(
+                      //     children: <Widget>[
+                      //       Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Text('Person 1',
+                      //               style: TextStyle(
+                      //                 fontSize: 20.0,
+                      //               )),
+                      //           Text('0',
+                      //               style: TextStyle(
+                      //                 fontSize: 20.0,
+                      //               )),
+                      //         ],
+                      //       ),
+
+                      //     ],
+                      //   ),
+                      // ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(height: 25.0),
+              // ignore: deprecated_member_use
               RaisedButton(
                   color: Colors.red[800],
                   padding: EdgeInsets.fromLTRB(50, 20, 50, 20),
@@ -326,6 +300,38 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       // ),
     );
+  }
+
+  _builddebtUIFuture() {
+    return FutureBuilder(
+        future: getdebtFuture(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            print('inside first if');
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          print('outside if');
+          return ListView(
+            children: snapshot.data,
+          );
+        });
+  }
+
+  getdebtFuture() async {
+    QuerySnapshot snapshot = await debtRef
+        .doc(auth.currentUser.uid)
+        .collection('debtid')
+        .orderBy('timestamp', descending: true)
+        .get();
+    List<debt> debtItems = [];
+    snapshot.docs.forEach((doc) {
+      debtItems.add(debt.CustomModel(doc));
+    });
+    print(debtItems);
+
+    return debtItems;
   }
 
   _buildUserData() {
@@ -719,5 +725,7 @@ class _ProfilePageState extends State<ProfilePage> {
         });
   }
 }
+
+
 
 //

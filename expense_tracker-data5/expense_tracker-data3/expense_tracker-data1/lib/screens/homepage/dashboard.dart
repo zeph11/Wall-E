@@ -6,7 +6,6 @@ import 'package:expense_tracker/Models/UserMOdel.dart';
 import 'package:expense_tracker/Models/cashinmodel.dart';
 import 'package:expense_tracker/Models/cashoutmodel.dart';
 import 'package:expense_tracker/Models/historymodel.dart';
-import 'package:expense_tracker/screens/Authenticate/info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../History.dart';
@@ -18,48 +17,6 @@ CashoutModel currentUser2;
 HistoryModel currentUser3;
 
 FirebaseAuth auth = FirebaseAuth.instance;
-
-// abstract class ListItem {
-//   Widget buildTitle(BuildContext context);
-//   Widget buildSubtitle(BuildContext context);
-// }
-
-// class HeadingItem implements ListItem {
-//   final String heading;
-
-//   HeadingItem(this.heading);
-
-//   @override
-//   Widget buildTitle(BuildContext context) {
-//     return Text(
-//       heading,
-//       style: Theme.of(context).textTheme.headline5,
-//     );
-//   }
-
-//   @override
-//   Widget buildSubtitle(BuildContext context) => SizedBox();
-// }
-
-// class MessageItem implements ListItem {
-//   final String sender;
-//   final String body;
-
-//   MessageItem(this.sender, this.body);
-
-//   @override
-//   Widget buildTitle(BuildContext context) => Text(sender);
-
-//   @override
-//   Widget buildSubtitle(BuildContext context) => Text(body);
-// }
-
-// final items = List<ListItem>.generate(
-//   1000,
-//   (i) => i % 6 == 0
-//       ? HeadingItem('Heading $i')
-//       : MessageItem('Sender $i', 'Message body $i'),
-// );
 
 final mainRef = FirebaseFirestore.instance.collection('user');
 final historyRef = FirebaseFirestore.instance.collection('history');
