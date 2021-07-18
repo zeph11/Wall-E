@@ -56,7 +56,7 @@ class PirChartDataView extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 400,
+                      height: 320,
                       child: _buildStreamExpense(context),
                     ),
                     _buildDataExpense(context),
@@ -107,7 +107,10 @@ class PirChartDataView extends StatelessWidget {
                           .symmetric(), // Allows to add a border decoration around your table
                       children: [
                         TableRow(children: [
-                          Text(''),
+                          Container(
+                            padding: EdgeInsets.only(top: 10, bottom: 1),
+                            child: Text(''),
+                          ),
                           Container(
                             padding: EdgeInsets.only(top: 10, bottom: 15),
                             child: Text(
@@ -116,7 +119,7 @@ class PirChartDataView extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 10, bottom: 15),
+                            padding: EdgeInsets.only(top: 10),
                             child: Text(
                               'Amount',
                               style: TextStyle(fontSize: 18),
@@ -125,19 +128,26 @@ class PirChartDataView extends StatelessWidget {
                         ]),
                         TableRow(children: [
                           Container(
+                            alignment: Alignment.topCenter,
                             child: Icon(
                               Icons.brightness_1,
                               color: Colors.orange[300],
                             ),
                           ),
-                          Text('Salary'),
                           Container(
-                            padding: EdgeInsets.only(left: 20, right: 10),
-                            child: Text(pieModel.salary.toString()),
+                              alignment: Alignment.bottomLeft,
+                              child: Text('Salary',
+                                  style: TextStyle(fontSize: 16))),
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: 20, right: 10, bottom: 15),
+                            child: Text(pieModel.salary.toString(),
+                                style: TextStyle(fontSize: 16)),
                           ),
                         ]),
                         TableRow(children: [
                           Container(
+                            alignment: Alignment.topCenter,
                             child: Icon(
                               Icons.brightness_1,
                               color: Colors.green[300],
@@ -145,11 +155,14 @@ class PirChartDataView extends StatelessWidget {
                           ),
                           Container(
                             padding: EdgeInsets.only(bottom: 10),
-                            child: Text('Profit'),
+                            child:
+                                Text('Profit', style: TextStyle(fontSize: 16)),
                           ),
                           Container(
-                            padding: EdgeInsets.only(left: 20, right: 10),
-                            child: Text(pieModel.profit.toString()),
+                            padding: EdgeInsets.only(
+                                left: 20, right: 10, bottom: 15),
+                            child: Text(pieModel.profit.toString(),
+                                style: TextStyle(fontSize: 16)),
                           ),
                         ]),
                         TableRow(children: [
@@ -159,10 +172,12 @@ class PirChartDataView extends StatelessWidget {
                               color: Colors.red[300],
                             ),
                           ),
-                          Text('Investment'),
+                          Text('Investment', style: TextStyle(fontSize: 16)),
                           Container(
-                            padding: EdgeInsets.only(left: 20, right: 10),
-                            child: Text(pieModel.investment.toString()),
+                            padding: EdgeInsets.only(
+                                left: 20, right: 10, bottom: 15),
+                            child: Text(pieModel.investment.toString(),
+                                style: TextStyle(fontSize: 16)),
                           ),
                         ]),
                         TableRow(children: [
@@ -172,10 +187,12 @@ class PirChartDataView extends StatelessWidget {
                               color: Colors.indigo[200],
                             ),
                           ),
-                          Text('Family'),
+                          Text('Family', style: TextStyle(fontSize: 16)),
                           Container(
-                            padding: EdgeInsets.only(left: 20, right: 10),
-                            child: Text(pieModel.property.toString()),
+                            padding: EdgeInsets.only(
+                                left: 20, right: 10, bottom: 15),
+                            child: Text(pieModel.property.toString(),
+                                style: TextStyle(fontSize: 16)),
                           ),
                         ]),
                         TableRow(children: [
@@ -185,10 +202,12 @@ class PirChartDataView extends StatelessWidget {
                               color: Colors.cyan[200],
                             ),
                           ),
-                          Text('Sale'),
+                          Text('Sale', style: TextStyle(fontSize: 16)),
                           Container(
-                            padding: EdgeInsets.only(left: 20, right: 10),
-                            child: Text(pieModel.sale.toString()),
+                            padding: EdgeInsets.only(
+                                left: 20, right: 10, bottom: 15),
+                            child: Text(pieModel.sale.toString(),
+                                style: TextStyle(fontSize: 16)),
                           ),
                         ]),
                         TableRow(children: [
@@ -198,10 +217,12 @@ class PirChartDataView extends StatelessWidget {
                               color: Colors.blueGrey[300],
                             ),
                           ),
-                          Text('Others'),
+                          Text('Others', style: TextStyle(fontSize: 16)),
                           Container(
-                            padding: EdgeInsets.only(left: 20, right: 10),
-                            child: Text(pieModel.others.toString()),
+                            padding: EdgeInsets.only(
+                                left: 20, right: 10, bottom: 15),
+                            child: Text(pieModel.others.toString(),
+                                style: TextStyle(fontSize: 16)),
                           ),
                         ]),
                       ]),

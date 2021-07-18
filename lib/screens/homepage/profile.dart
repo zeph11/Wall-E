@@ -9,13 +9,15 @@ import 'package:expense_tracker/screens/homepage/addperson.dart';
 import 'package:expense_tracker/screens/homepage/dashboard.dart';
 import 'package:expense_tracker/screens/homepage/debtdisplay.dart';
 import 'package:expense_tracker/screens/homepage/editdetails.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+FirebaseAuth auth = FirebaseAuth.instance;
 
 final cashinRef = FirebaseFirestore.instance.collection("CashIn");
 final cashoutRef = FirebaseFirestore.instance.collection("CashOut");
 final debtRef = FirebaseFirestore.instance.collection('debt');
-debtModel currentUser3;
+DebtModel currentUser3;
 
 class ProfilePage extends StatefulWidget {
   final AuthBase auth;
@@ -27,7 +29,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  Stream<List<debtModel>> getdebt() {
+  Stream<List<DebtModel>> getdebt() {
     final snapshots = debtRef
         .doc(auth.currentUser.uid)
         .collection('debtid')
@@ -35,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
         .snapshots();
 
     return snapshots.map((event) =>
-        event.docs.map((snapshot) => debtModel.deserialize(snapshot)).toList());
+        event.docs.map((snapshot) => DebtModel.deserialize(snapshot)).toList());
   }
 
   Future<void> _logout() async {
@@ -226,17 +228,22 @@ class _ProfilePageState extends State<ProfilePage> {
                               )),
                         ),
                         InkWell(
-                            child: Text('Add Persons',
+                            child: Text('Add Person',
                                 style: TextStyle(
                                   fontSize: 18.0,
                                   decoration: TextDecoration.underline,
                                 )),
-                            onTap: () {
-                              Navigator.push(
+                            onTap: () async {
+                              final refresh = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => AddPerson()),
                               );
+                              if (refresh) {
+                                if (mounted) {
+                                  setState(() {});
+                                }
+                              }
                             }),
                       ],
                     ),
@@ -253,6 +260,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         horizontal: 20.0,
                       ),
                       //purple container
+                      height: MediaQuery.of(context).size.height / 5.1,
 
                       child: _builddebtUIFuture(),
                       // Form(
@@ -324,9 +332,9 @@ class _ProfilePageState extends State<ProfilePage> {
         .collection('debtid')
         .orderBy('timestamp', descending: true)
         .get();
-    List<debt> debtItems = [];
+    List<Debt> debtItems = [];
     snapshot.docs.forEach((doc) {
-      debtItems.add(debt.CustomModel(doc));
+      debtItems.add(Debt.CustomModel(doc));
     });
     print(debtItems);
 

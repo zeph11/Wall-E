@@ -6,6 +6,7 @@ import 'package:expense_tracker/screens/homepage/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/screens/homepage/profile.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddPerson extends StatefulWidget {
   final AuthBase auth;
@@ -22,13 +23,14 @@ class _AddPersonState extends State<AddPerson> {
   final debtRef = FirebaseFirestore.instance.collection("debt");
 
   //creating databae
-  addpersondata(String name, String amount) async {
+  Future<void> addpersondata(String name, int amount) async {
     String id = FirebaseAuth.instance.currentUser.uid;
 
     await debtRef
         .doc(id)
         .collection('debtid')
-        .doc(DateTime.now().microsecond.toString())
+        //.doc(name)
+        .doc(name)
         .set({
       "name": name,
       'amount': amount,
@@ -72,7 +74,6 @@ class _AddPersonState extends State<AddPerson> {
                           filled: true,
                           fillColor: Color(0xff3282B8).withOpacity(0.9),
                         ),
-                        keyboardType: TextInputType.number,
                         onChanged: (val) {
                           setState(() => name = val);
                         },
@@ -97,7 +98,16 @@ class _AddPersonState extends State<AddPerson> {
                           decoration: TextDecoration.underline,
                         )),
                     onPressed: () {
-                      addpersondata(name, '0');
+                      addpersondata(name, 0);
+                      if (true) {
+                        Fluttertoast.showToast(
+                          msg: "Person Added",
+                          gravity: ToastGravity.BOTTOM,
+                          toastLength: Toast.LENGTH_SHORT,
+                          backgroundColor: Colors.blue,
+                          textColor: Colors.white,
+                        );
+                      }
                     }),
                 // ignore: deprecated_member_use
                 // RaisedButton(

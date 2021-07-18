@@ -1,22 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 //cashin garda ko model with deserialize
-class debtModel {
+class DebtModel {
   final String name;
-  final String amount;
+  final int amount;
 
-  debtModel({
+  DebtModel({
     this.name,
     this.amount,
   });
 
-  factory debtModel.deserialize(DocumentSnapshot doc) {
+  factory DebtModel.deserialize(DocumentSnapshot doc) {
     if (doc == null) {
       return null;
     }
     final String name = doc['name'];
-    final String amount = doc['amount'];
-    return debtModel(
+    final int amount = doc['amount'];
+    return DebtModel(
       name: name,
       amount: amount,
     );

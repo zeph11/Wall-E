@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/Authentication/Authentication.dart';
 import 'package:expense_tracker/Models/cashinmodel.dart';
 import 'package:expense_tracker/Models/cashoutmodel.dart';
+import 'package:expense_tracker/InandOut/cashindebt.dart';
+import 'package:expense_tracker/screens/homepage/dashboard.dart';
 import 'package:expense_tracker/screens/homepage/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 // CashinModel currentUser;
+final debtRef = FirebaseFirestore.instance.collection('debt');
 
 //final cashinRef = FirebaseFirestore.instance.collection("CashIn").doc();
 //final historyRef = FirebaseFirestore.instance.collection("History").doc();
@@ -24,7 +27,39 @@ class CashIn extends StatefulWidget {
 }
 
 class _CashInState extends State<CashIn> {
-  String amt;
+  _buildDebtUIFuture() {
+    return FutureBuilder(
+        future: getDebtFuture(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView(
+            children: snapshot.data,
+          );
+        });
+  }
+
+  getDebtFuture() async {
+    QuerySnapshot snapshot = await debtRef
+        .doc(auth.currentUser.uid)
+        .collection('debtid')
+        .orderBy('timestamp', descending: true)
+        .get();
+    List<InDebt> indebtItems = [];
+    snapshot.docs.forEach((doc) {
+      indebtItems.add(InDebt.CustomModel(doc));
+    });
+
+    return indebtItems;
+  }
+
+  final _formkey = GlobalKey<FormState>();
+
+  String amt = '';
+  String error = '';
   String finalDate = '';
 
   int salary = 0;
@@ -33,7 +68,7 @@ class _CashInState extends State<CashIn> {
   int property = 0;
   int sale = 0;
   int others = 0;
-  String cat;
+  String cat = '';
   String time;
   int count;
   @override
@@ -177,31 +212,44 @@ class _CashInState extends State<CashIn> {
                   ],
                 ),
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.endDocked,
-              floatingActionButton: FloatingActionButton(
-                child: Icon(
-                  Icons.check,
-                  color: Colors.white,
-                  size: 39.0,
-                ),
-                backgroundColor: Colors.green[800],
-                onPressed: () {
-                  updateDBValues();
-                  updateHistory("abc");
-                  if (true) {
-                    Fluttertoast.showToast(
-                      msg: "Transaction recorded",
-                      gravity: ToastGravity.CENTER,
-                      toastLength: Toast.LENGTH_SHORT,
-                      backgroundColor: Colors.blue,
-                      textColor: Colors.white,
-                    );
-                  }
+              // floatingActionButtonLocation:
+              //     FloatingActionButtonLocation.endDocked,
+              // floatingActionButton: FloatingActionButton(
+              //   child: Icon(
+              //     Icons.check,
+              //     color: Colors.white,
+              //     size: 39.0,
+              //   ),
+              //   backgroundColor: Colors.green[800],
+              //   onPressed: () {
+              //     if (_formkey.currentState.validate()) {
+              //       if (cat == '') {
+              //         Fluttertoast.showToast(
+              //           msg: "Category not
+              // chosen",
+              //           gravity: ToastGravity.BOTTOM,
+              //           toastLength: Toast.LENGTH_LONG,
+              //           backgroundColor: Colors.red,
+              //           textColor: Colors.white,
+              //         );
+              //       } else {
+              //         updateDBValues();
+              //         updateHistory("abc");
+              //         if (true) {
+              //           Fluttertoast.showToast(
+              //             msg: "Transaction recorded",
+              //             gravity: ToastGravity.BOTTOM,
+              //             toastLength: Toast.LENGTH_SHORT,
+              //             backgroundColor: Colors.blue,
+              //             textColor: Colors.white,
+              //           );
+              //         }
 
-                  Navigator.pop(context, true);
-                },
-              ),
+              //         Navigator.pop(context, true);
+              //       }
+              //     }
+              //   },
+              // ),
               body: TabBarView(
                 children: [
                   SingleChildScrollView(
@@ -211,20 +259,31 @@ class _CashInState extends State<CashIn> {
                         horizontal: 50.0,
                       ), //removes away from edges
                       child: Form(
+                        key: _formkey,
                         child: Column(
                           children: <Widget>[
                             SizedBox(
                               height: 15.0,
                             ),
                             Text('Amount',
-                                style: TextStyle(color: Colors.black)),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16)),
                             SizedBox(
                               height: 5.0,
                             ),
                             Container(
                               width: 350,
+                              height: 51,
+
                               //alignment: ,
-                              child: TextField(
+                              child: TextFormField(
+                                validator: (String value) {
+                                  String sanitizedVal = value.trim();
+                                  if (sanitizedVal.isEmpty) {
+                                    return 'Amount  is required';
+                                  }
+                                  return null;
+                                },
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 17),
                                 decoration: InputDecoration(
@@ -234,7 +293,7 @@ class _CashInState extends State<CashIn> {
                                         new BorderRadius.circular(25.0),
                                   ),
                                   hintText: 'Enter Amount',
-                                  prefixText: 'Rs. ',
+                                  prefixText: '     Rs. ',
                                   hintStyle: TextStyle(color: Colors.white38),
                                   filled: true,
                                   fillColor: Color(0xff3282B8).withOpacity(0.9),
@@ -251,7 +310,9 @@ class _CashInState extends State<CashIn> {
                             SizedBox(
                               height: 30.0,
                             ),
-                            Text('Date', style: TextStyle(color: Colors.black)),
+                            Text('Date',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16)),
                             SizedBox(
                               height: 5.0,
                             ),
@@ -263,7 +324,7 @@ class _CashInState extends State<CashIn> {
                                   ),
                                 ),
                                 width: 350,
-                                height: 54,
+                                height: 51,
                                 child: Container(
                                   padding: EdgeInsets.fromLTRB(28, 17, 17, 5),
                                   child: Text(
@@ -280,7 +341,8 @@ class _CashInState extends State<CashIn> {
                               height: 10.0,
                             ),
                             Text('From:',
-                                style: TextStyle(color: Colors.black)),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16)),
                             SizedBox(height: 15),
                             Container(
                               width: 350,
@@ -508,40 +570,51 @@ class _CashInState extends State<CashIn> {
                                     ],
                                   ),
                                   SizedBox(
-                                    height: 80,
+                                    height: 10,
                                   ),
+                                  Text(error),
                                 ],
                               ),
                             ),
-                            // Container(
-                            //   alignment: Alignment.bottomRight,
-                            //   child: RawMaterialButton(
-                            //     onPressed: () {
-                            //       updateDBValues();
-                            //       updateHistory("abc");
-                            //       if (true) {
-                            //         Fluttertoast.showToast(
-                            //           msg: "Transaction recorded",
-                            //           gravity: ToastGravity.CENTER,
-                            //           toastLength: Toast.LENGTH_SHORT,
-                            //           backgroundColor: Colors.blue,
-                            //           textColor: Colors.white,
-                            //         );
-                            //       }
-
-                            //       Navigator.pop(context, true);
-                            //     },
-                            //     elevation: 2.0,
-                            //     fillColor: Colors.green[800],
-                            //     child: Icon(
-                            //       Icons.check,
-                            //       color: Colors.white,
-                            //       size: 39.0,
-                            //     ),
-                            //     padding: EdgeInsets.all(15.0),
-                            //     shape: CircleBorder(),
-                            //   ),
-                            // )
+                            Container(
+                              alignment: Alignment.bottomRight,
+                              child: RawMaterialButton(
+                                onPressed: () {
+                                  if (_formkey.currentState.validate()) {
+                                    if (cat == '') {
+                                      Fluttertoast.showToast(
+                                        msg: "Category not chosen",
+                                        gravity: ToastGravity.BOTTOM,
+                                        toastLength: Toast.LENGTH_LONG,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                      );
+                                    } else {
+                                      updateDBValues();
+                                      updateHistory("abc");
+                                      if (true) {
+                                        Fluttertoast.showToast(
+                                          msg: "Transaction recorded",
+                                          gravity: ToastGravity.CENTER,
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          backgroundColor: Colors.blue,
+                                          textColor: Colors.white,
+                                        );
+                                      }
+                                    }
+                                  }
+                                },
+                                elevation: 2.0,
+                                fillColor: Colors.green[800],
+                                child: Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 34.0,
+                                ),
+                                padding: EdgeInsets.all(15.0),
+                                shape: CircleBorder(),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -556,42 +629,44 @@ class _CashInState extends State<CashIn> {
                       child: Form(
                         child: Column(children: <Widget>[
                           SizedBox(
-                            height: 15.0,
+                            height: 5.0,
                           ),
-                          Text('Amount', style: TextStyle(color: Colors.black)),
+                          // // Text('Amount', style: TextStyle(color: Colors.black)),
+                          // SizedBox(
+                          //   height: 5.0,
+                          // ),
+                          // Container(
+                          //   width: 350,
+                          //   //alignment: ,
+                          //   child: TextField(
+                          //     style:
+                          //         TextStyle(color: Colors.white, fontSize: 17),
+                          //     decoration: InputDecoration(
+                          //       enabledBorder: OutlineInputBorder(
+                          //         borderSide: BorderSide(color: Colors.white),
+                          //         borderRadius: new BorderRadius.circular(25.0),
+                          //       ),
+                          //       hintText: 'Enter Amount',
+                          //       prefixText: 'Rs. ',
+                          //       hintStyle: TextStyle(color: Colors.white38),
+                          //       filled: true,
+                          //       fillColor: Color(0xff3282B8).withOpacity(0.9),
+                          //     ),
+                          //     keyboardType: TextInputType.number,
+                          //     inputFormatters: <TextInputFormatter>[
+                          //       FilteringTextInputFormatter.digitsOnly
+                          //     ],
+                          //     onChanged: (val) {
+                          //       setState(() => amt = val);
+                          //     },
+                          //   ),
+                          // ),
                           SizedBox(
                             height: 5.0,
                           ),
-                          Container(
-                            width: 350,
-                            //alignment: ,
-                            child: TextField(
+                          Text('Date',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 17),
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: new BorderRadius.circular(25.0),
-                                ),
-                                hintText: 'Enter Amount',
-                                prefixText: 'Rs. ',
-                                hintStyle: TextStyle(color: Colors.white38),
-                                filled: true,
-                                fillColor: Color(0xff3282B8).withOpacity(0.9),
-                              ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              onChanged: (val) {
-                                setState(() => amt = val);
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30.0,
-                          ),
-                          Text('Date', style: TextStyle(color: Colors.black)),
+                                  TextStyle(color: Colors.black, fontSize: 16)),
                           SizedBox(
                             height: 5.0,
                           ),
@@ -603,7 +678,7 @@ class _CashInState extends State<CashIn> {
                                 ),
                               ),
                               width: 350,
-                              height: 54,
+                              height: 50,
                               child: Container(
                                 padding: EdgeInsets.fromLTRB(28, 17, 17, 5),
                                 child: Text(
@@ -619,218 +694,40 @@ class _CashInState extends State<CashIn> {
                           SizedBox(
                             height: 20.0,
                           ),
-                          Text('From:', style: TextStyle(color: Colors.black)),
+                          Text('Debt From:',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16)),
                           SizedBox(height: 15),
                           Container(
-                            width: 350,
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  //first row of icons
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.orange[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(
-                                              side: BorderSide(
-                                                  color: isSelected
-                                                      ? Colors.blue
-                                                      : Colors.transparent,
-                                                  width: 2.2),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person A'),
-                                          )
-                                        ]),
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.green[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(
-                                              side: BorderSide(
-                                                  color: isSelected
-                                                      ? Colors.blue
-                                                      : Colors.transparent,
-                                                  width: 2.2),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person B'),
-                                          )
-                                        ]),
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.red[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(
-                                              side: BorderSide(
-                                                  color: isSelected
-                                                      ? Colors.blue
-                                                      : Colors.transparent,
-                                                  width: 2.2),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person C'),
-                                          )
-                                        ]),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          Container(
-                            width: 350,
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  //second row of icons
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.brown[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(
-                                              side: BorderSide(
-                                                  color: isSelected
-                                                      ? Colors.blue
-                                                      : Colors.transparent,
-                                                  width: 2.2),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person D'),
-                                          )
-                                        ]),
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.blue[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(
-                                              side: BorderSide(
-                                                  color: isSelected
-                                                      ? Colors.blue
-                                                      : Colors.transparent,
-                                                  width: 2.2),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person E'),
-                                          )
-                                        ]),
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.pink[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(
-                                              side: BorderSide(
-                                                  color: isSelected
-                                                      ? Colors.blue
-                                                      : Colors.transparent,
-                                                  width: 2.2),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person F'),
-                                          )
-                                        ]),
-                                  ],
-                                ),
-                              ],
-                            ),
+                            height: MediaQuery.of(context).size.height / 0.9,
+                            child: _buildDebtUIFuture(),
                           ),
                           SizedBox(height: 90),
-                          Container(
-                            alignment: Alignment.bottomRight,
-                            child: RawMaterialButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DashBoard(
-                                            auth: widget.auth,
-                                            initialUser: widget.inuserinfo,
-                                          )),
-                                );
-                              },
-                              elevation: 2.0,
-                              fillColor: Colors.green[800],
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 39.0,
-                              ),
-                              padding: EdgeInsets.all(15.0),
-                              shape: CircleBorder(),
-                            ),
-                          )
+                          // Container(
+                          //   alignment: Alignment.bottomRight,
+                          //   child: RawMaterialButton(
+                          //     onPressed: () {
+
+                          //       Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             builder: (context) => DashBoard(
+                          //                   auth: widget.auth,
+                          //                   initialUser: widget.inuserinfo,
+                          //                 )),
+                          //       );
+                          //     },
+                          //     elevation: 2.0,
+                          //     fillColor: Colors.green[800],
+                          //     child: Icon(
+                          //       Icons.check,
+                          //       color: Colors.white,
+                          //       size: 39.0,
+                          //     ),
+                          //     padding: EdgeInsets.all(15.0),
+                          //     shape: CircleBorder(),
+                          //   ),
+                          // )
                         ]),
                       ),
                     ),
@@ -875,3 +772,191 @@ class _CashInState extends State<CashIn> {
 //   //doc = await cashinRef.doc(widget.inuserinfo.id).get();
 //   //   currentUser1 = CashinModel.deserialize(doc);
 //   // }
+
+// Container(
+//   width: 350,
+//   child: Column(
+//     children: <Widget>[
+//       Row(
+//         //first row of icons
+//         mainAxisAlignment:
+//             MainAxisAlignment.spaceBetween,
+//         children: [
+//           Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: <Widget>[
+//                 RawMaterialButton(
+//                   onPressed: () {},
+//                   elevation: 2.0,
+//                   fillColor: Colors.orange[300],
+//                   child: Icon(
+//                     Icons.person_outline,
+//                     color: Colors.white,
+//                     size: 25.0,
+//                   ),
+//                   padding: EdgeInsets.all(15.0),
+//                   shape: CircleBorder(
+//                     side: BorderSide(
+//                         color: isSelected
+//                             ? Colors.blue
+//                             : Colors.transparent,
+//                         width: 2.2),
+//                   ),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.all(10.0),
+//                   child: Text('Person A'),
+//                 )
+//               ]),
+//           Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: <Widget>[
+//                 RawMaterialButton(
+//                   onPressed: () {
+
+//                   },
+//                   elevation: 2.0,
+//                   fillColor: Colors.green[300],
+//                   child: Icon(
+//                     Icons.person_outline,
+//                     color: Colors.white,
+//                     size: 25.0,
+//                   ),
+//                   padding: EdgeInsets.all(15.0),
+//                   shape: CircleBorder(
+//                     side: BorderSide(
+//                         color: isSelected
+//                             ? Colors.blue
+//                             : Colors.transparent,
+//                         width: 2.2),
+//                   ),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.all(10.0),
+//                   child: Text('Person B'),
+//                 )
+//               ]),
+//           Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: <Widget>[
+//                 RawMaterialButton(
+//                   onPressed: () {},
+//                   elevation: 2.0,
+//                   fillColor: Colors.red[300],
+//                   child: Icon(
+//                     Icons.person_outline,
+//                     color: Colors.white,
+//                     size: 25.0,
+//                   ),
+//                   padding: EdgeInsets.all(15.0),
+//                   shape: CircleBorder(
+//                     side: BorderSide(
+//                         color: isSelected
+//                             ? Colors.blue
+//                             : Colors.transparent,
+//                         width: 2.2),
+//                   ),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.all(10.0),
+//                   child: Text('Person C'),
+//                 )
+//               ]),
+//         ],
+//       ),
+//     ],
+//   ),
+// ),
+// SizedBox(height: 15),
+// Container(
+//   width: 350,
+//   child: Column(
+//     children: <Widget>[
+//       Row(
+//         //second row of icons
+//         mainAxisAlignment:
+//             MainAxisAlignment.spaceBetween,
+//         children: [
+//           Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: <Widget>[
+//                 RawMaterialButton(
+//                   onPressed: () {},
+//                   elevation: 2.0,
+//                   fillColor: Colors.brown[300],
+//                   child: Icon(
+//                     Icons.person_outline,
+//                     color: Colors.white,
+//                     size: 25.0,
+//                   ),
+//                   padding: EdgeInsets.all(15.0),
+//                   shape: CircleBorder(
+//                     side: BorderSide(
+//                         color: isSelected
+//                             ? Colors.blue
+//                             : Colors.transparent,
+//                         width: 2.2),
+//                   ),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.all(10.0),
+//                   child: Text('Person D'),
+//                 )
+//               ]),
+//           Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: <Widget>[
+//                 RawMaterialButton(
+//                   onPressed: () {},
+//                   elevation: 2.0,
+//                   fillColor: Colors.blue[300],
+//                   child: Icon(
+//                     Icons.person_outline,
+//                     color: Colors.white,
+//                     size: 25.0,
+//                   ),
+//                   padding: EdgeInsets.all(15.0),
+//                   shape: CircleBorder(
+//                     side: BorderSide(
+//                         color: isSelected
+//                             ? Colors.blue
+//                             : Colors.transparent,
+//                         width: 2.2),
+//                   ),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.all(10.0),
+//                   child: Text('Person E'),
+//                 )
+//               ]),
+//           Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: <Widget>[
+//                 RawMaterialButton(
+//                   onPressed: () {},
+//                   elevation: 2.0,
+//                   fillColor: Colors.pink[300],
+//                   child: Icon(
+//                     Icons.person_outline,
+//                     color: Colors.white,
+//                     size: 25.0,
+//                   ),
+//                   padding: EdgeInsets.all(15.0),
+//                   shape: CircleBorder(
+//                     side: BorderSide(
+//                         color: isSelected
+//                             ? Colors.blue
+//                             : Colors.transparent,
+//                         width: 2.2),
+//                   ),
+//                 ),
+//                 Padding(
+//                   padding: const EdgeInsets.all(10.0),
+//                   child: Text('Person F'),
+//                 )
+//               ]),
+//         ],
+//       ),
+//     ],
+//   ),
+// ),

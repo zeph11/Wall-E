@@ -1,4 +1,3 @@
-//import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/Authentication/Authentication.dart';
 import 'package:expense_tracker/Models/UserMOdel.dart';
@@ -16,11 +15,7 @@ import 'Pichart.dart';
 final cashinRef = FirebaseFirestore.instance.collection("CashIn");
 final cashoutRef = FirebaseFirestore.instance.collection("CashOut");
 final historyRef = FirebaseFirestore.instance.collection("History");
-
-//import 'package:google_nav_bar/google_nav_bar.dart';
-//import 'package:line_icons/line_icons.dart';
-
-//import 'cuppertin'
+final percentRef = FirebaseFirestore.instance.collection("percent");
 
 class DashBoard extends StatefulWidget {
   final AuthBase auth;
@@ -86,11 +81,7 @@ class _DashBoardState extends State<DashBoard> {
       doc = await mainRef.doc(widget.initialUser.id).get();
       createUserinfirebaseForCashIn();
       createUserinfirebaseForCashOut();
-      //updateHistory();
-
-      // int totalexpense = 0;
-      // int totalincome = 0;
-      // int available = 0;
+      setpercent();
     }
     currentUser = UserModel.deserialize(doc);
   }
@@ -131,20 +122,13 @@ class _DashBoardState extends State<DashBoard> {
     currentUser2 = CashoutModel.deserialize(doc);
   }
 
-  // updateHistory() async {
-  //   print('1234');
-  //   DocumentSnapshot doc = await historyRef.doc(widget.initialUser.id).get();
-  //   print('5678');
-  //   await historyRef.doc(widget.initialUser.id).set({
-  //     // FirebaseFirestore.instance.collection('History').doc
-  //     // (id).set({
-  //     "amount": 0,
-  //     "category": "",
-  //     "date": "",
-  //     "timestamp": DateTime.now(),
-  //   });
-  //   //currentUser3 = HistoryModel.deserialize(doc);
-  // }
+  setpercent() async {
+    DocumentSnapshot doc = await cashoutRef.doc(widget.initialUser.id).get();
+    await percentRef.doc(widget.initialUser.id).set({
+      "amount": 0,
+      'date': "",
+    });
+  }
 
   void onPageChanged(int pageIndex) {
     setState(() {

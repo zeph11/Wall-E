@@ -6,6 +6,7 @@ import 'package:expense_tracker/Models/UserMOdel.dart';
 import 'package:expense_tracker/Models/cashinmodel.dart';
 import 'package:expense_tracker/Models/cashoutmodel.dart';
 import 'package:expense_tracker/Models/historymodel.dart';
+import 'package:expense_tracker/Models/percentmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../History.dart';
@@ -62,8 +63,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
         .orderBy('timestamp', descending: true)
         .snapshots();
 
-    print("stream Debug 1");
-
     return snapshots.map((event) => event.docs
         .map((snapshot) => HistoryModel.deserialize(snapshot))
         .toList());
@@ -116,12 +115,31 @@ class _DashBoardPageState extends State<DashBoardPage> {
     });
   }
 
+  void checkpercent() async {
+    String id = FirebaseAuth.instance.currentUser.uid;
+
+    DocumentSnapshot query2 =
+        await FirebaseFirestore.instance.collection('percent').doc(id).get();
+    PercentModel neww = PercentModel.deserialize(query2);
+    print(neww.date);
+    print(finalDate);
+    if (neww.date != finalDate) {
+      print('contition not equal to ');
+
+      await percentRef.doc(id).update({
+        "amount": 0,
+        "timestamp": DateTime.now(),
+        'date': finalDate,
+      });
+    }
+  }
+
   @override
   void initState() {
     displayexpense();
     displayincome();
-
     displayavailable();
+    checkpercent();
 
     //getCurrentDate()
     {
@@ -168,7 +186,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
         ],
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(12.0),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 1),
         // ignore: deprecated_member_use
         child: Container(
           height: 60,
@@ -179,13 +197,13 @@ class _DashBoardPageState extends State<DashBoardPage> {
               // ignore: deprecated_member_use
               RaisedButton(
                 color: Colors.green[900],
-                padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
+                padding: EdgeInsets.fromLTRB(35, 15, 35, 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.0),
                   //side: BorderSide(color: Colors.white),
                 ),
                 child: Text(
-                  ' CASH IN ',
+                  ' CASH IN  ',
                   style: TextStyle(fontSize: 20.0, color: Colors.white),
                 ),
                 onPressed: () async {
@@ -202,13 +220,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       setState(() {});
                     }
                   }
-                  //if (_formkey.currentState.validate()) {
                 },
               ),
               // ignore: deprecated_member_use
               RaisedButton(
                 color: Color(0xffB30000),
-                padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
+                padding: EdgeInsets.fromLTRB(35, 15, 35, 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.0),
                   // side: BorderSide(color: Colors.white),
@@ -252,16 +269,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
             //block block ma chutaune column
             children: [
               SizedBox(
-                height: 15.0,
+                height: 10.0,
               ),
-              // Container(
-              //     alignment: Alignment.center,
-              //     child: Text(
-              //       "Today's Date: $finalDate",
-              //       style: TextStyle(fontSize: 20),
-              //       textAlign: TextAlign.center,
-              //     )),
+
               Container(
+                margin: EdgeInsets.symmetric(horizontal: 1, vertical: 3),
+
                 decoration: BoxDecoration(
                   color: Colors.blue[100],
                   borderRadius: BorderRadius.all(
@@ -271,31 +284,13 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 // yo first block ko container
 
                 alignment: Alignment.center,
-                height: 70,
+                height: 69,
                 width: 350,
                 padding: EdgeInsets.symmetric(vertical: 10),
-                child: _displayavailable()
-
-                // Column(
-                //   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Text(
-                //       'Available Balance',
-                //       style: TextStyle(fontSize: 30.0, color: Colors.blue[800]),
-                //     ),
-                //     SizedBox(height: 10),
-                //     Text(
-                //       //'$available',
-                //       'bhy',
-
-                //       style: TextStyle(fontSize: 30.0, color: Colors.blue[800]),
-                //     ),
-                //   ],
-                // )
-                ,
+                child: _displayavailable(),
               ), //container1
               SizedBox(
-                height: 15,
+                height: 10,
               ),
               Container(
                   decoration: BoxDecoration(
@@ -315,8 +310,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
                             ),
                           ),
                           padding: EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 15,
+                            horizontal: 28,
+                            vertical: 12,
                           ),
 
                           //income container
@@ -330,18 +325,35 @@ class _DashBoardPageState extends State<DashBoardPage> {
                             ),
                           ),
                           padding: EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 15,
+                            horizontal: 28,
+                            vertical: 12,
                           ),
                           //expense container
                           alignment: Alignment.bottomLeft,
                           child: _displayexpense()),
                     ],
                   )), //container2
-              SizedBox(height: 30),
-              // Divider(
-              //   color: Colors.black,
-              // ),
+              SizedBox(height: 10),
+              Container(
+                  alignment: Alignment.center,
+                  width: 350,
+                  decoration: BoxDecoration(
+                    color: Colors.yellow[100],
+                    borderRadius: BorderRadius.all(
+                      const Radius.circular(4000),
+                    ),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 10,
+                  ),
+                  child: _displaypercent()
+                  // Text(
+                  //   'You have spent 101% of your daily expected expense.',
+                  //   style: TextStyle(fontSize: 16),
+                  // ),
+                  ),
+              SizedBox(height: 25),
 
               Container(
                   color: Colors.grey[00],
@@ -349,14 +361,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     children: [
                       Text(
                         'Recent History',
-                        style: TextStyle(fontSize: 20.0, color: Colors.black),
+                        style: TextStyle(fontSize: 18.0, color: Colors.black),
                       ),
                     ],
                   )),
 
-              //data tablee
-
-              SizedBox(height: 12),
+              SizedBox(height: 10),
               Container(
                 height: MediaQuery.of(context).size.height / 2.1,
                 child: _buildHistoryUIFuture(),
@@ -393,7 +403,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
     snapshot.docs.forEach((doc) {
       historyItems.add(history.CustomModel(doc));
     });
-    print(historyItems);
 
     return historyItems;
   }
@@ -417,7 +426,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 ),
                 child: Text(
                   'Available Balance',
-                  style: TextStyle(fontSize: 25.0, color: Colors.blue[800]),
+                  style: TextStyle(fontSize: 24.0, color: Colors.blue[800]),
                 ),
               ),
               //SizedBox(height: 10),
@@ -430,7 +439,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   //'$available',
                   newMod.available.toString(),
 
-                  style: TextStyle(fontSize: 25.0, color: Colors.blue[800]),
+                  style: TextStyle(fontSize: 24.0, color: Colors.blue[800]),
                 ),
               ),
             ],
@@ -446,35 +455,49 @@ class _DashBoardPageState extends State<DashBoardPage> {
             return Center(child: CircularProgressIndicator());
           }
           CashinModel newMod = CashinModel.deserialize(snapshot.data);
-          //int totalincome = 0;
-          // int totalincome = newMod.salary +
-          //     newMod.profit +
-          //     newMod.investment +
-          //     newMod.property +
-          //     newMod.sale +
-          //     newMod.others;
-
-          // newMod.totalincome = newMod.salary +
-          //     newMod.profit +
-          //     newMod.investment +
-          //     newMod.property +
-          //     newMod.sale +
-          //     newMod.others;
 
           return Column(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Total Income',
-                style: TextStyle(fontSize: 22.0, color: Colors.green[800]),
+                style: TextStyle(fontSize: 21.0, color: Colors.green[800]),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 7),
               Text(
                 newMod.totalincome.toString(),
-                style: TextStyle(fontSize: 22.0, color: Colors.green[800]),
+                style: TextStyle(fontSize: 21.0, color: Colors.green[800]),
               ),
             ],
           );
+        });
+  }
+
+//final mainRef = FirebaseFirestore.instance.collection('user');
+  _displaypercent() {
+    return StreamBuilder(
+        stream: percentRef.doc(widget.dashuserInformation.id).snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+          PercentModel neww = PercentModel.deserialize(snapshot.data);
+          return StreamBuilder(
+              stream: mainRef.doc(widget.dashuserInformation.id).snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                UserModel newMod = UserModel.deserialize(snapshot.data);
+                double percent =
+                    ((neww.amount) / double.parse(newMod.dexpense)) * 100;
+                // double p = 100 - percent.abs();
+                String per = percent.toStringAsFixed(1);
+                return Text(
+                  "You've spent $per% of your daily expected expense.",
+                  style: TextStyle(fontSize: 17.5, color: Colors.yellow[800]),
+                );
+              });
         });
   }
 
@@ -486,42 +509,18 @@ class _DashBoardPageState extends State<DashBoardPage> {
             return Center(child: CircularProgressIndicator());
           }
           CashoutModel neww = CashoutModel.deserialize(snapshot.data);
-          // int totalexpense = 0;
-          // totalexpense = neww.eatingout +
-          //     neww.education +
-          //     neww.health +
-          //     neww.bills +
-          //     neww.communication +
-          //     neww.groceries +
-          //     neww.travel +
-          //     neww.sports +
-          //     neww.entertainment +
-          //     neww.household +
-          //     neww.gifts +
-          //     neww.others;
-          // neww.totalexpense = neww.eatingout +
-          //     neww.education +
-          //     neww.health +
-          //     neww.bills +
-          //     neww.communication +
-          //     neww.groceries +
-          //     neww.travel +
-          //     neww.sports +
-          //     neww.entertainment +
-          //     neww.household +
-          //     neww.gifts +
-          //     neww.others;
+
           return Column(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Total Expense',
-                style: TextStyle(fontSize: 22.0, color: Colors.red[800]),
+                style: TextStyle(fontSize: 21.0, color: Colors.red[800]),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 7),
               Text(
                 neww.totalexpense.toString(),
-                style: TextStyle(fontSize: 22.0, color: Colors.red[800]),
+                style: TextStyle(fontSize: 21.0, color: Colors.red[800]),
               ),
             ],
           );

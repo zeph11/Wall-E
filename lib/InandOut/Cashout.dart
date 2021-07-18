@@ -1,11 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/Authentication/Authentication.dart';
+import 'package:expense_tracker/InandOut/cashoutdebt.dart';
 import 'package:expense_tracker/Models/cashoutmodel.dart';
+import 'package:expense_tracker/Models/percentmodel.dart';
+import 'package:expense_tracker/screens/homepage/dashboard.dart';
 import 'package:expense_tracker/screens/homepage/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+final debtRef = FirebaseFirestore.instance.collection('debt');
 
 class CashOut extends StatefulWidget {
   final AuthBase auth;
@@ -17,6 +22,37 @@ class CashOut extends StatefulWidget {
 }
 
 class _CashOutState extends State<CashOut> {
+  _buildDebtUIFuture() {
+    return FutureBuilder(
+        future: getDebtFuture(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView(
+            children: snapshot.data,
+          );
+        });
+  }
+
+  getDebtFuture() async {
+    QuerySnapshot snapshot = await debtRef
+        .doc(auth.currentUser.uid)
+        .collection('debtid')
+        .orderBy('timestamp', descending: true)
+        .get();
+    List<OutDebt> indebtItems = [];
+    snapshot.docs.forEach((doc) {
+      indebtItems.add(OutDebt.CustomModel(doc));
+    });
+
+    return indebtItems;
+  }
+
+  final _formkey = GlobalKey<FormState>();
+
   String amt = '';
   String finalDate = '';
   int eatingout = 0;
@@ -31,7 +67,7 @@ class _CashOutState extends State<CashOut> {
   int household = 0;
   int gifts = 0;
   int others = 0;
-  String cat;
+  String cat = '';
 
   Future<void> updateSalary(
       String uid,
@@ -113,6 +149,40 @@ class _CashOutState extends State<CashOut> {
     });
   }
 
+  final percentRef = FirebaseFirestore.instance.collection("percent");
+  // Future<void> setpercent(int amt) async {
+  //   String id = FirebaseAuth.instance.currentUser.uid;
+  //   print('4');
+  //   await percentRef.doc(id).set({
+  //     "amount": 0,
+  //   });
+  // }
+
+  Future<void> addpercent(int amt) async {
+    String id = FirebaseAuth.instance.currentUser.uid;
+
+    DocumentSnapshot query =
+        await FirebaseFirestore.instance.collection('percent').doc(id).get();
+
+    PercentModel newm = PercentModel.deserialize(query);
+    print(newm.amount);
+    print(amt);
+    int finalamt = newm.amount + amt;
+    updatepercent(finalamt);
+  }
+
+  Future<void> updatepercent(int amt) async {
+    String id = FirebaseAuth.instance.currentUser.uid;
+    print('4');
+    await percentRef.doc(id).update({
+      "amount": amt,
+      "timestamp": DateTime.now(),
+      'date': finalDate,
+    });
+  }
+
+  addamount() {}
+
   bool i1 = false;
   bool i2 = false;
   bool i3 = false;
@@ -182,31 +252,7 @@ class _CashOutState extends State<CashOut> {
                   ],
                 ),
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.endDocked,
-              floatingActionButton: FloatingActionButton(
-                child: Icon(
-                  Icons.check,
-                  color: Colors.white,
-                  size: 39.0,
-                ),
-                backgroundColor: Colors.green[800],
-                onPressed: () {
-                  updateDBValues();
-                  updateHistory("abc");
-                  if (true) {
-                    Fluttertoast.showToast(
-                      msg: "Transaction recorded",
-                      gravity: ToastGravity.BOTTOM,
-                      toastLength: Toast.LENGTH_SHORT,
-                      backgroundColor: Colors.blue,
-                      textColor: Colors.white,
-                    );
-                  }
-
-                  Navigator.pop(context, true);
-                },
-              ),
+              //
               body: TabBarView(
                 children: [
                   SingleChildScrollView(
@@ -216,20 +262,30 @@ class _CashOutState extends State<CashOut> {
                         horizontal: 50.0,
                       ), //removes away from edges
                       child: Form(
+                        key: _formkey,
                         child: Column(
                           children: <Widget>[
                             SizedBox(
                               height: 15.0,
                             ),
                             Text('Amount',
-                                style: TextStyle(color: Colors.black)),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16)),
                             SizedBox(
                               height: 5.0,
                             ),
                             Container(
                               width: 350,
+                              height: 51,
                               //alignment: ,
-                              child: TextField(
+                              child: TextFormField(
+                                validator: (String value) {
+                                  String sanitizedVal = value.trim();
+                                  if (sanitizedVal.isEmpty) {
+                                    return 'Amount  is required';
+                                  }
+                                  return null;
+                                },
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 20),
                                 decoration: InputDecoration(
@@ -239,7 +295,7 @@ class _CashOutState extends State<CashOut> {
                                         new BorderRadius.circular(25.0),
                                   ),
                                   hintText: 'Enter Amount',
-                                  prefixText: 'Rs. ',
+                                  prefixText: '    Rs. ',
                                   hintStyle: TextStyle(color: Colors.white38),
                                   filled: true,
                                   fillColor: Color(0xff3282B8).withOpacity(0.9),
@@ -256,11 +312,14 @@ class _CashOutState extends State<CashOut> {
                             SizedBox(
                               height: 30.0,
                             ),
-                            Text('Date', style: TextStyle(color: Colors.black)),
+                            Text('Date',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16)),
                             SizedBox(
                               height: 5.0,
                             ),
                             Container(
+                                height: 51,
                                 decoration: BoxDecoration(
                                   color: Color(0xff3282B8).withOpacity(0.9),
                                   borderRadius: BorderRadius.all(
@@ -268,7 +327,6 @@ class _CashOutState extends State<CashOut> {
                                   ),
                                 ),
                                 width: 350,
-                                height: 54,
                                 child: Container(
                                   padding: EdgeInsets.fromLTRB(28, 17, 17, 5),
                                   child: Text(
@@ -303,7 +361,9 @@ class _CashOutState extends State<CashOut> {
                             SizedBox(
                               height: 20.0,
                             ),
-                            Text('To:', style: TextStyle(color: Colors.black)),
+                            Text('To:',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16)),
                             SizedBox(height: 15),
                             Container(
                               width: 350,
@@ -745,43 +805,48 @@ class _CashOutState extends State<CashOut> {
                                 ],
                               ),
                             ),
-                            // SizedBox(height: 40),
-                            // Container(
-                            //   alignment: Alignment.bottomRight,
-                            //   child: RawMaterialButton(
-                            //     onPressed: () {
-                            //       updateDBValues();
-                            //       updateHistory("abc");
-                            //       if (true) {
-                            //         Fluttertoast.showToast(
-                            //           msg: "Transaction recorded",
-                            //           gravity: ToastGravity.BOTTOM,
-                            //           toastLength: Toast.LENGTH_SHORT,
-                            //           backgroundColor: Colors.blue,
-                            //           textColor: Colors.white,
-                            //         );
-                            //       }
-                            //       Navigator.pop(context, true);
-                            //       // Navigator.push(
-                            //       //   context,
-                            //       //   MaterialPageRoute(
-                            //       //       builder: (context) => DashBoard(
-                            //       //             auth: widget.auth,
-                            //       //             initialUser: widget.outuserinfo,
-                            //       //           )),
-                            //       // );
-                            //     },
-                            //     elevation: 2.0,
-                            //     fillColor: Colors.green[800],
-                            //     child: Icon(
-                            //       Icons.check,
-                            //       color: Colors.white,
-                            //       size: 39.0,
-                            //     ),
-                            //     padding: EdgeInsets.all(15.0),
-                            //     shape: CircleBorder(),
-                            //   ),
-                            // )
+                            SizedBox(height: 40),
+                            Container(
+                              alignment: Alignment.bottomRight,
+                              child: RawMaterialButton(
+                                onPressed: () {
+                                  if (_formkey.currentState.validate()) {
+                                    if (cat == '') {
+                                      Fluttertoast.showToast(
+                                        msg: "Category not chosen",
+                                        gravity: ToastGravity.BOTTOM,
+                                        toastLength: Toast.LENGTH_LONG,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                      );
+                                    } else {
+                                      updateDBValues();
+                                      updateHistory("abc");
+                                      addpercent(int.parse(amt));
+                                      if (true) {
+                                        Fluttertoast.showToast(
+                                          msg: "Transaction recorded",
+                                          gravity: ToastGravity.CENTER,
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          backgroundColor: Colors.blue,
+                                          textColor: Colors.white,
+                                        );
+                                      }
+                                      Navigator.pop(context, true);
+                                    }
+                                  }
+                                },
+                                elevation: 2.0,
+                                fillColor: Colors.green[800],
+                                child: Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 34.0,
+                                ),
+                                padding: EdgeInsets.all(15.0),
+                                shape: CircleBorder(),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -796,42 +861,42 @@ class _CashOutState extends State<CashOut> {
                       child: Form(
                         child: Column(children: <Widget>[
                           SizedBox(
-                            height: 15.0,
-                          ),
-                          Text('Amount', style: TextStyle(color: Colors.black)),
-                          SizedBox(
                             height: 5.0,
                           ),
-                          Container(
-                            width: 350,
-                            //alignment: ,
-                            child: TextField(
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 17),
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: new BorderRadius.circular(25.0),
-                                ),
-                                hintText: 'Enter Amount',
-                                prefixText: 'Rs. ',
-                                hintStyle: TextStyle(color: Colors.white38),
-                                filled: true,
-                                fillColor: Color(0xff3282B8).withOpacity(0.9),
-                              ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              onChanged: (val) {
-                                setState(() => amt = val);
-                              },
-                            ),
-                          ),
+                          // Text('Amount', style: TextStyle(color: Colors.black)),
+
+                          // Container(
+                          //   width: 350,
+                          //   //alignment: ,
+                          //   child: TextField(
+                          //     style:
+                          //         TextStyle(color: Colors.white, fontSize: 17),
+                          //     decoration: InputDecoration(
+                          //       enabledBorder: OutlineInputBorder(
+                          //         borderSide: BorderSide(color: Colors.white),
+                          //         borderRadius: new BorderRadius.circular(25.0),
+                          //       ),
+                          //       hintText: 'Enter Amount',
+                          //       prefixText: 'Rs. ',
+                          //       hintStyle: TextStyle(color: Colors.white38),
+                          //       filled: true,
+                          //       fillColor: Color(0xff3282B8).withOpacity(0.9),
+                          //     ),
+                          //     keyboardType: TextInputType.number,
+                          //     inputFormatters: <TextInputFormatter>[
+                          //       FilteringTextInputFormatter.digitsOnly
+                          //     ],
+                          //     onChanged: (val) {
+                          //       setState(() => amt = val);
+                          //     },
+                          //   ),
+                          // ),
                           SizedBox(
                             height: 30.0,
                           ),
-                          Text('Date', style: TextStyle(color: Colors.black)),
+                          Text('Date',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16)),
                           SizedBox(
                             height: 5.0,
                           ),
@@ -856,182 +921,188 @@ class _CashOutState extends State<CashOut> {
                           SizedBox(
                             height: 20.0,
                           ),
-                          Text('From:', style: TextStyle(color: Colors.black)),
+                          Text('Debt To:',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16)),
                           SizedBox(height: 15),
                           Container(
-                            width: 350,
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  //first row of icons
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.orange[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person A'),
-                                          )
-                                        ]),
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.green[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person B'),
-                                          )
-                                        ]),
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.red[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person C'),
-                                          )
-                                        ]),
-                                  ],
-                                ),
-                              ],
-                            ),
+                            height: MediaQuery.of(context).size.height / 1.9,
+                            child: _buildDebtUIFuture(),
                           ),
-                          SizedBox(height: 15),
-                          Container(
-                            width: 350,
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  //second row of icons
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.brown[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person D'),
-                                          )
-                                        ]),
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.blue[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person E'),
-                                          )
-                                        ]),
-                                    Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RawMaterialButton(
-                                            onPressed: () {},
-                                            elevation: 2.0,
-                                            fillColor: Colors.pink[300],
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
-                                            padding: EdgeInsets.all(15.0),
-                                            shape: CircleBorder(),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Text('Person F'),
-                                          )
-                                        ]),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 100),
-                          Container(
-                            alignment: Alignment.bottomRight,
-                            child: RawMaterialButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DashBoard(
-                                            auth: widget.auth,
-                                            initialUser: widget.outuserinfo,
-                                          )),
-                                );
-                              },
-                              elevation: 2.0,
-                              fillColor: Colors.green[800],
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 39.0,
-                              ),
-                              padding: EdgeInsets.all(15.0),
-                              shape: CircleBorder(),
-                            ),
-                          )
+                          // Container(
+                          //   width: 350,
+                          //   child: Column(
+                          //     children: <Widget>[
+                          //       Row(
+                          //         //first row of icons
+                          //         mainAxisAlignment:
+                          //             MainAxisAlignment.spaceBetween,
+                          //         children: [
+                          //           Column(
+                          //               mainAxisSize: MainAxisSize.min,
+                          //               children: <Widget>[
+                          //                 RawMaterialButton(
+                          //                   onPressed: () {},
+                          //                   elevation: 2.0,
+                          //                   fillColor: Colors.orange[300],
+                          //                   child: Icon(
+                          //                     Icons.person_outline,
+                          //                     color: Colors.white,
+                          //                     size: 25.0,
+                          //                   ),
+                          //                   padding: EdgeInsets.all(15.0),
+                          //                   shape: CircleBorder(),
+                          //                 ),
+                          //                 Padding(
+                          //                   padding: const EdgeInsets.all(10.0),
+                          //                   child: Text('Person A'),
+                          //                 )
+                          //               ]),
+                          //           Column(
+                          //               mainAxisSize: MainAxisSize.min,
+                          //               children: <Widget>[
+                          //                 RawMaterialButton(
+                          //                   onPressed: () {},
+                          //                   elevation: 2.0,
+                          //                   fillColor: Colors.green[300],
+                          //                   child: Icon(
+                          //                     Icons.person_outline,
+                          //                     color: Colors.white,
+                          //                     size: 25.0,
+                          //                   ),
+                          //                   padding: EdgeInsets.all(15.0),
+                          //                   shape: CircleBorder(),
+                          //                 ),
+                          //                 Padding(
+                          //                   padding: const EdgeInsets.all(10.0),
+                          //                   child: Text('Person B'),
+                          //                 )
+                          //               ]),
+                          //           Column(
+                          //               mainAxisSize: MainAxisSize.min,
+                          //               children: <Widget>[
+                          //                 RawMaterialButton(
+                          //                   onPressed: () {},
+                          //                   elevation: 2.0,
+                          //                   fillColor: Colors.red[300],
+                          //                   child: Icon(
+                          //                     Icons.person_outline,
+                          //                     color: Colors.white,
+                          //                     size: 25.0,
+                          //                   ),
+                          //                   padding: EdgeInsets.all(15.0),
+                          //                   shape: CircleBorder(),
+                          //                 ),
+                          //                 Padding(
+                          //                   padding: const EdgeInsets.all(10.0),
+                          //                   child: Text('Person C'),
+                          //                 )
+                          //               ]),
+                          //         ],
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          // SizedBox(height: 15),
+                          // Container(
+                          //   width: 350,
+                          //   child: Column(
+                          //     children: <Widget>[
+                          //       Row(
+                          //         //second row of icons
+                          //         mainAxisAlignment:
+                          //             MainAxisAlignment.spaceBetween,
+                          //         children: [
+                          //           Column(
+                          //               mainAxisSize: MainAxisSize.min,
+                          //               children: <Widget>[
+                          //                 RawMaterialButton(
+                          //                   onPressed: () {},
+                          //                   elevation: 2.0,
+                          //                   fillColor: Colors.brown[300],
+                          //                   child: Icon(
+                          //                     Icons.person_outline,
+                          //                     color: Colors.white,
+                          //                     size: 25.0,
+                          //                   ),
+                          //                   padding: EdgeInsets.all(15.0),
+                          //                   shape: CircleBorder(),
+                          //                 ),
+                          //                 Padding(
+                          //                   padding: const EdgeInsets.all(10.0),
+                          //                   child: Text('Person D'),
+                          //                 )
+                          //               ]),
+                          //           Column(
+                          //               mainAxisSize: MainAxisSize.min,
+                          //               children: <Widget>[
+                          //                 RawMaterialButton(
+                          //                   onPressed: () {},
+                          //                   elevation: 2.0,
+                          //                   fillColor: Colors.blue[300],
+                          //                   child: Icon(
+                          //                     Icons.person_outline,
+                          //                     color: Colors.white,
+                          //                     size: 25.0,
+                          //                   ),
+                          //                   padding: EdgeInsets.all(15.0),
+                          //                   shape: CircleBorder(),
+                          //                 ),
+                          //                 Padding(
+                          //                   padding: const EdgeInsets.all(10.0),
+                          //                   child: Text('Person E'),
+                          //                 )
+                          //               ]),
+                          //           Column(
+                          //               mainAxisSize: MainAxisSize.min,
+                          //               children: <Widget>[
+                          //                 RawMaterialButton(
+                          //                   onPressed: () {},
+                          //                   elevation: 2.0,
+                          //                   fillColor: Colors.pink[300],
+                          //                   child: Icon(
+                          //                     Icons.person_outline,
+                          //                     color: Colors.white,
+                          //                     size: 25.0,
+                          //                   ),
+                          //                   padding: EdgeInsets.all(15.0),
+                          //                   shape: CircleBorder(),
+                          //                 ),
+                          //                 Padding(
+                          //                   padding: const EdgeInsets.all(10.0),
+                          //                   child: Text('Person F'),
+                          //                 )
+                          //               ]),
+                          //         ],
+                          //       ),
+                          //     ],
+                          //   ),
+                          // // ),
+                          // SizedBox(height: 100),
+                          // Container(
+                          //   alignment: Alignment.bottomRight,
+                          //   child: RawMaterialButton(
+                          //     onPressed: () {
+                          //       Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             builder: (context) => DashBoard(
+                          //                   auth: widget.auth,
+                          //                   initialUser: widget.outuserinfo,
+                          //                 )),
+                          //       );
+                          //     },
+                          //     elevation: 2.0,
+                          //     fillColor: Colors.green[800],
+                          //     child: Icon(
+                          //       Icons.check,
+                          //       color: Colors.white,
+                          //       size: 39.0,
+                          //     ),
+                          //     padding: EdgeInsets.all(15.0),
+                          //     shape: CircleBorder(),
+                          //   ),
+                          // )
                         ]),
                       ),
                     ),
@@ -1041,3 +1112,44 @@ class _CashOutState extends State<CashOut> {
             )));
   }
 }
+
+//floatingActionButtonLocation:
+//     FloatingActionButtonLocation.endDocked,
+// floatingActionButton: FloatingActionButton(
+//   child: Icon(
+//     Icons.check,
+//     color: Colors.white,
+//     size: 39.0,
+//   ),
+//   backgroundColor: Colors.green[800],
+//   onPressed: () {
+//     if (_formkey.currentState.validate()) {
+//       if (cat == '') {
+//         Fluttertoast.showToast(
+//           msg: "Category not chosen",
+//           gravity: ToastGravity.BOTTOM,
+//           toastLength: Toast.LENGTH_LONG,
+//           backgroundColor: Colors.red,
+//           textColor: Colors.white,
+//         );
+//       } else {
+//         updateDBValues();
+//         updateHistory("abc");
+//         //setpercent(int.parse(amt));
+
+//         addpercent(int.parse(amt));
+//         if (true) {
+//           Fluttertoast.showToast(
+//             msg: "Transaction recorded",
+//             gravity: ToastGravity.BOTTOM,
+//             toastLength: Toast.LENGTH_SHORT,
+//             backgroundColor: Colors.blue,
+//             textColor: Colors.white,
+//           );
+//         }
+
+//         Navigator.pop(context, true);
+//       }
+//     }
+//   },
+// ),

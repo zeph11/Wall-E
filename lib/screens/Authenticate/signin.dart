@@ -206,7 +206,6 @@ class _SignInState extends State<SignIn> {
                           'LOGIN',
                           style: TextStyle(color: Colors.white),
                         ),
-                        //onPressed: deleteDatabase,
                         onPressed: _signInService,
                       ),
                       SizedBox(height: 10),

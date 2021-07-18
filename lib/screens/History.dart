@@ -32,6 +32,7 @@ class history extends StatelessWidget {
           child: Icon(
             Icons.local_atm,
             size: 17.0,
+            color: Colors.white,
           ),
           padding: EdgeInsets.all(10.0),
           shape: CircleBorder(),
@@ -45,6 +46,7 @@ class history extends StatelessWidget {
           fillColor: Colors.red[300],
           child: Icon(
             Icons.bar_chart,
+            color: Colors.white,
             size: 20.0,
           ),
           padding: EdgeInsets.all(10.0),
@@ -60,6 +62,7 @@ class history extends StatelessWidget {
           child: Icon(
             Icons.domain,
             size: 20.0,
+            color: Colors.white,
           ),
           padding: EdgeInsets.all(10.0),
           shape: CircleBorder(),
@@ -73,6 +76,7 @@ class history extends StatelessWidget {
           fillColor: Colors.cyan[200],
           child: Icon(
             Icons.local_offer,
+            color: Colors.white,
             size: 20.0,
           ),
           padding: EdgeInsets.all(10.0),
@@ -88,6 +92,7 @@ class history extends StatelessWidget {
           child: Icon(
             Icons.trending_up,
             size: 20.0,
+            color: Colors.white,
           ),
           padding: EdgeInsets.all(10.0),
           shape: CircleBorder(),
@@ -101,6 +106,7 @@ class history extends StatelessWidget {
           fillColor: Colors.blueGrey[300],
           child: Icon(
             Icons.more_horiz,
+            color: Colors.white,
             size: 20.0,
           ),
           padding: EdgeInsets.all(10.0),
@@ -116,6 +122,7 @@ class history extends StatelessWidget {
           child: Icon(
             Icons.more_horiz,
             size: 20.0,
+            color: Colors.white,
           ),
           padding: EdgeInsets.all(10.0),
           shape: CircleBorder(),
@@ -129,6 +136,7 @@ class history extends StatelessWidget {
           fillColor: Colors.orange[300],
           child: Icon(
             Icons.restaurant,
+            color: Colors.white,
             size: 20.0,
           ),
           padding: EdgeInsets.all(10.0),
@@ -144,6 +152,7 @@ class history extends StatelessWidget {
           child: Icon(
             Icons.book,
             size: 20.0,
+            color: Colors.white,
           ),
           padding: EdgeInsets.all(10.0),
           shape: CircleBorder(),
@@ -158,6 +167,7 @@ class history extends StatelessWidget {
           child: Icon(
             Icons.healing,
             size: 20.0,
+            color: Colors.white,
           ),
           padding: EdgeInsets.all(10.0),
           shape: CircleBorder(),
@@ -172,6 +182,7 @@ class history extends StatelessWidget {
           child: Icon(
             Icons.receipt,
             size: 20.0,
+            color: Colors.white,
           ),
           padding: EdgeInsets.all(10.0),
           shape: CircleBorder(),
@@ -185,6 +196,7 @@ class history extends StatelessWidget {
           fillColor: Colors.blueGrey[300],
           child: Icon(
             Icons.shopping_basket,
+            color: Colors.white,
             size: 20.0,
           ),
           padding: EdgeInsets.all(10.0),
@@ -199,6 +211,7 @@ class history extends StatelessWidget {
           fillColor: Colors.teal[200],
           child: Icon(
             Icons.directions_bus,
+            color: Colors.white,
             size: 20.0,
           ),
           padding: EdgeInsets.all(10.0),
@@ -213,6 +226,7 @@ class history extends StatelessWidget {
           fillColor: Colors.deepPurple[300],
           child: Icon(
             Icons.devices,
+            color: Colors.white,
             size: 20.0,
           ),
           padding: EdgeInsets.all(10.0),
@@ -227,6 +241,7 @@ class history extends StatelessWidget {
           fillColor: Colors.amberAccent,
           child: Icon(
             Icons.home,
+            color: Colors.white,
             size: 20.0,
           ),
           padding: EdgeInsets.all(10.0),
@@ -242,6 +257,7 @@ class history extends StatelessWidget {
           child: Icon(
             Icons.card_giftcard,
             size: 20.0,
+            color: Colors.white,
           ),
           padding: EdgeInsets.all(10.0),
           shape: CircleBorder(),
@@ -255,6 +271,7 @@ class history extends StatelessWidget {
           fillColor: Colors.cyan[200],
           child: Icon(
             Icons.call,
+            color: Colors.white,
             size: 20.0,
           ),
           padding: EdgeInsets.all(10.0),
@@ -270,6 +287,7 @@ class history extends StatelessWidget {
           child: Icon(
             Icons.directions_run,
             size: 20.0,
+            color: Colors.white,
           ),
           padding: EdgeInsets.all(10.0),
           shape: CircleBorder(),
@@ -283,6 +301,7 @@ class history extends StatelessWidget {
           fillColor: Colors.brown[300],
           child: Icon(
             Icons.person_outline,
+            color: Colors.white,
             size: 20.0,
           ),
           padding: EdgeInsets.all(10.0),
@@ -300,7 +319,7 @@ class history extends StatelessWidget {
         cat == 'Investment' ||
         cat == 'Income Others') {
       return Container(
-        child: Text("Rs. " + amount.toString(),
+        child: Text("+Rs. " + amount.toString(),
             style: TextStyle(
               color: Colors.green[800],
               fontSize: 19.0,
@@ -319,27 +338,46 @@ class history extends StatelessWidget {
         cat == 'Gifts' ||
         cat == 'Expense Others') {
       return Container(
-        child: Text("Rs. " + amount.toString(),
+        child: Text("-Rs. " + amount.toString(),
             style: TextStyle(
               color: Colors.red[800],
               fontSize: 19.0,
             )),
       );
+    } else {
+      if (int.parse(amount) < 0) {
+        int a = -int.parse(amount);
+        return Container(
+          child: Text("-Rs. " + (a.toString()),
+              style: TextStyle(
+                color: Colors.red[800],
+                fontSize: 19.0,
+              )),
+        );
+      } else if (int.parse(amount) > 0) {
+        return Container(
+          child: Text("Rs. " + amount.toString(),
+              style: TextStyle(
+                color: Colors.green[800],
+                fontSize: 19.0,
+              )),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 1, bottom: 1),
+        padding: EdgeInsets.only(top: 0.7, bottom: 0.7),
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          margin: EdgeInsets.symmetric(horizontal: 17, vertical: 3),
           padding: EdgeInsets.symmetric(
-            vertical: 6.0,
+            vertical: 4.0,
             horizontal: 10.0,
           ),
           decoration: BoxDecoration(
-            color: Colors.indigo[50],
+            color: Colors.blue[50],
             borderRadius: BorderRadius.all(
               const Radius.circular(20),
             ),
