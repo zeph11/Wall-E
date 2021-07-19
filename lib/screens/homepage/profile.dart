@@ -4,7 +4,6 @@ import 'package:expense_tracker/Models/UserMOdel.dart';
 import 'package:expense_tracker/Models/cashinmodel.dart';
 import 'package:expense_tracker/Models/cashoutmodel.dart';
 import 'package:expense_tracker/Models/debt.dart';
-import 'package:expense_tracker/screens/Authenticate/signin.dart';
 import 'package:expense_tracker/screens/homepage/addperson.dart';
 import 'package:expense_tracker/screens/homepage/dashboard.dart';
 import 'package:expense_tracker/screens/homepage/debtdisplay.dart';
@@ -29,6 +28,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  int n;
   Stream<List<DebtModel>> getdebt() {
     final snapshots = debtRef
         .doc(auth.currentUser.uid)
@@ -260,7 +260,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         horizontal: 20.0,
                       ),
                       //purple container
-                      height: MediaQuery.of(context).size.height / 5.1,
+                      height: MediaQuery.of(context).size.height / 3.6,
 
                       child: _builddebtUIFuture(),
                       // Form(
@@ -337,6 +337,7 @@ class _ProfilePageState extends State<ProfilePage> {
       debtItems.add(Debt.CustomModel(doc));
     });
     print(debtItems);
+    //n = debtItems.length;
 
     return debtItems;
   }

@@ -256,7 +256,7 @@ class _CashInState extends State<CashIn> {
                     child: Container(
                       padding: EdgeInsets.symmetric(
                         vertical: 40.0,
-                        horizontal: 50.0,
+                        horizontal: 10.0,
                       ), //removes away from edges
                       child: Form(
                         key: _formkey,
@@ -622,10 +622,7 @@ class _CashInState extends State<CashIn> {
                   ),
                   SingleChildScrollView(
                     child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 40.0,
-                        horizontal: 50.0,
-                      ), //removes away from edges
+                      padding: EdgeInsets.fromLTRB(50, 30, 30, 30),
                       child: Form(
                         child: Column(children: <Widget>[
                           SizedBox(
@@ -697,8 +694,9 @@ class _CashInState extends State<CashIn> {
                           Text('Debt From:',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 16)),
-                          SizedBox(height: 15),
+                          SizedBox(height: 30),
                           Container(
+                            //  margin: EdgeInsets.all(1),
                             height: MediaQuery.of(context).size.height / 0.9,
                             child: _buildDebtUIFuture(),
                           ),

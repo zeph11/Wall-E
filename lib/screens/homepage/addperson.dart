@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/Authentication/Authentication.dart';
-import 'package:expense_tracker/Models/debt.dart';
-import 'package:expense_tracker/Models/historymodel.dart';
-import 'package:expense_tracker/screens/homepage/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:expense_tracker/screens/homepage/profile.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AddPerson extends StatefulWidget {

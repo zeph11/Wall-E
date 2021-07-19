@@ -24,7 +24,6 @@ class _OutDebtState extends State<OutDebt> {
   String amt = '';
   int amount;
   String finalDate;
-
   String iconname;
 
   Future<void> updateDBValues(int amt, String name) async {
@@ -41,7 +40,7 @@ class _OutDebtState extends State<OutDebt> {
             // .orderBy('timestamp', descending: true)
             .get();
     DebtModel newMod = DebtModel.deserialize(query);
-    int finalamount = newMod.amount - amt;
+    int finalamount = newMod.amount + amt;
 
     updateSalary(id, name, finalamount);
   }
@@ -57,15 +56,18 @@ class _OutDebtState extends State<OutDebt> {
     });
   }
 
-  updateHistory(String name, int amount) async {
+  updateHistory(String name) async {
     String id = FirebaseAuth.instance.currentUser.uid;
-    String amtt = '$amount';
+    print('debug3');
+    print(amount);
+    // String amtt = '$a';
+
     await historyRef
         .doc(id)
         .collection('historyid')
         .doc(DateTime.now().microsecond.toString())
         .set({
-      "amount": amtt,
+      "amount": amount.toString(),
       "category": name,
       "date": finalDate,
       "timestamp": DateTime.now(),
@@ -93,74 +95,63 @@ class _OutDebtState extends State<OutDebt> {
       child: Container(
         child: Column(
           children: <Widget>[
-            // Form(
-            //   child: Column(
-            //     children: <Widget>[
-            //       Text('Amount', style: TextStyle(color: Colors.black)),
-            //       Container(
-            //         width: 350,
-            //         //alignment: ,
-            //         child: TextField(
-            //           style: TextStyle(color: Colors.white, fontSize: 17),
-            //           decoration: InputDecoration(
-            //             enabledBorder: OutlineInputBorder(
-            //               borderSide: BorderSide(color: Colors.white),
-            //               borderRadius: new BorderRadius.circular(25.0),
-            //             ),
-            //             hintText: 'Enter Amount',
-            //             prefixText: 'Rs. ',
-            //             hintStyle: TextStyle(color: Colors.white38),
-            //             filled: true,
-            //             fillColor: Color(0xff3282B8).withOpacity(0.9),
-            //           ),
-            //           keyboardType: TextInputType.number,
-            //           onChanged: (val) {
-            //             setState(() => amt = val);
-            //           },
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                RawMaterialButton(
-                  onPressed: () {
-                    print(amt);
-                    amount = int.parse(amt);
-                    print(amount);
-                    // setState(() {
-                    //   i6 = !i6;
-                    // }
-                    //);
-                  },
-                  elevation: 2.0,
-                  fillColor: Colors.blueGrey[300],
-                  child: Icon(
-                    Icons.person_outline,
-                    color: Colors.white,
-                    size: 20.0,
-                  ),
-                  padding: EdgeInsets.all(15.0),
-                  shape: CircleBorder(
-                    side: BorderSide(
-                        // color: i6 ? Colors.blue : Colors.transparent, width: 2.2
+                Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      widget.name,
+                      style: TextStyle(fontSize: 17),
+                    )),
+              ],
+            ),
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Form(
+                  child: Column(
+                    children: <Widget>[
+                      // Text('Amount', style: TextStyle(color: Colors.black)),
+                      Container(
+                        width: 240,
+                        height: 45,
+                        child: TextField(
+                          style: TextStyle(color: Colors.white, fontSize: 17),
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: new BorderRadius.circular(25.0),
+                            ),
+                            hintText: 'Enter Amount',
+                            prefixText: 'Rs. ',
+                            hintStyle: TextStyle(color: Colors.white38),
+                            filled: true,
+                            fillColor: Color(0xff3282B8).withOpacity(0.9),
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged: (val) {
+                            setState(() => amt = val);
+                          },
                         ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(widget.name),
                 Container(
                   alignment: Alignment.bottomRight,
                   child: RawMaterialButton(
                     onPressed: () {
+                      amount = -int.parse(amt);
+
                       updateDBValues(amount, widget.name);
-                      updateHistory(widget.name, widget.amount);
+                      updateHistory(widget.name);
+                      String n = widget.name;
                       if (true) {
                         Fluttertoast.showToast(
-                          msg: "Transaction recorded",
+                          msg: "Debt added to $n ",
                           gravity: ToastGravity.BOTTOM,
-                          toastLength: Toast.LENGTH_SHORT,
+                          toastLength: Toast.LENGTH_LONG,
                           backgroundColor: Colors.blue,
                           textColor: Colors.white,
                         );
@@ -171,15 +162,15 @@ class _OutDebtState extends State<OutDebt> {
                     child: Icon(
                       Icons.check,
                       color: Colors.white,
-                      size: 18.0,
+                      size: 21.0,
                     ),
-                    padding: EdgeInsets.all(15.0),
+                    padding: EdgeInsets.all(5.0),
                     shape: CircleBorder(),
                   ),
-                )
+                ),
               ],
             ),
-            SizedBox(height: 5),
+            SizedBox(height: 20),
           ],
         ),
       ),

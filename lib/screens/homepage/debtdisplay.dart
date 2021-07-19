@@ -11,6 +11,22 @@ class Debt extends StatelessWidget {
     return Debt(name: doc['name'], amount: doc['amount']);
   }
 
+  getprefix() {
+    if (amount > 0) {
+      return Text("To: ",
+          style: TextStyle(
+            fontSize: 17,
+          ));
+    } else if (amount < 0) {
+      return Text("From: ",
+          style: TextStyle(
+            fontSize: 17,
+          ));
+    } else {
+      return Text("  --   ");
+    }
+  }
+
   getamount() {
     if (amount > 0) {
       return Text(amount.toString(),
@@ -35,20 +51,24 @@ class Debt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          children: [
-            Text(name,
-                style: TextStyle(
-                  fontSize: 20.0,
-                )),
-            SizedBox(height: 5),
-          ],
-        ),
-        Container(child: getamount()),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(top: 0, bottom: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(child: getprefix()),
+              Text(name,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  )),
+            ],
+          ),
+          SizedBox(height: 8),
+          Container(child: getamount()),
+        ],
+      ),
     );
   }
 }

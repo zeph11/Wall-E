@@ -99,42 +99,87 @@ class _InDebtState extends State<InDebt> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                RawMaterialButton(
-                  onPressed: () {
-                    print(amt);
-                    amount = int.parse(amt);
-                    print(amount);
-                    setState(() {
-                      i1 = !i1;
-                    });
-                  },
-                  elevation: 2.0,
-                  fillColor: Colors.blueGrey[300],
-                  child: Icon(
-                    Icons.person_outline,
-                    color: Colors.white,
-                    size: 20.0,
+                // RawMaterialButton(
+                //   onPressed: () {
+                //     print(amt);
+                //     print(amount);
+                //     setState(() {
+                //       i1 = !i1;
+                //     });
+                //   },
+                //   elevation: 2.0,
+                //   fillColor: Colors.blueGrey[300],
+                //   child: Icon(
+                //     Icons.person_outline,
+                //     color: Colors.white,
+                //     size: 20.0,
+                //   ),
+                //   padding: EdgeInsets.all(15.0),
+                //   shape: CircleBorder(
+                //     side: BorderSide(
+                //         color: i1 ? Colors.blue : Colors.transparent,
+                //         width: 2.2),
+                //   ),
+                // ),
+                Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      widget.name,
+                      style: TextStyle(fontSize: 17),
+                    )),
+              ],
+            ),
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Container(
+                    child: Form(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        // Text('Enter Amount:',
+                        //     style: TextStyle(color: Colors.black)),
+                        Container(
+                          width: 240,
+                          height: 45,
+                          child: TextField(
+                            style: TextStyle(color: Colors.white, fontSize: 17),
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                                borderRadius: new BorderRadius.circular(25.0),
+                              ),
+                              hintText: 'Enter Amount',
+                              prefixText: 'Rs. ',
+                              hintStyle: TextStyle(color: Colors.white38),
+                              filled: true,
+                              fillColor: Color(0xff3282B8).withOpacity(0.9),
+                            ),
+                            keyboardType: TextInputType.number,
+                            onChanged: (val) {
+                              setState(() => amt = val);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  padding: EdgeInsets.all(15.0),
-                  shape: CircleBorder(
-                    side: BorderSide(
-                        color: i1 ? Colors.blue : Colors.transparent,
-                        width: 2.2),
-                  ),
-                ),
-                Text(widget.name),
+                )),
                 Container(
                   alignment: Alignment.bottomRight,
                   child: RawMaterialButton(
                     onPressed: () {
+                      amount = int.parse(amt);
+
                       updateDBValues(amount, widget.name);
                       updateHistory(widget.name);
+                      String n = widget.name;
 
                       if (true) {
                         Fluttertoast.showToast(
-                          msg: "Transaction recorded",
+                          msg: "  Debt added from $n",
                           gravity: ToastGravity.BOTTOM,
-                          toastLength: Toast.LENGTH_SHORT,
+                          toastLength: Toast.LENGTH_LONG,
                           backgroundColor: Colors.blue,
                           textColor: Colors.white,
                         );
@@ -145,48 +190,15 @@ class _InDebtState extends State<InDebt> {
                     child: Icon(
                       Icons.check,
                       color: Colors.white,
-                      size: 18.0,
+                      size: 21.0,
                     ),
-                    padding: EdgeInsets.all(15.0),
+                    padding: EdgeInsets.all(5.0),
                     shape: CircleBorder(),
                   ),
                 )
               ],
             ),
-            Container(
-                child: Form(
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    Text('Amount', style: TextStyle(color: Colors.black)),
-                    Container(
-                      width: 350, height: 40,
-
-                      //alignment: ,
-                      child: TextField(
-                        style: TextStyle(color: Colors.white, fontSize: 17),
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: new BorderRadius.circular(25.0),
-                          ),
-                          hintText: 'Enter Amount',
-                          prefixText: 'Rs. ',
-                          hintStyle: TextStyle(color: Colors.white38),
-                          filled: true,
-                          fillColor: Color(0xff3282B8).withOpacity(0.9),
-                        ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (val) {
-                          setState(() => amt = val);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )),
-            SizedBox(height: 15),
+            SizedBox(height: 20),
           ],
         ),
       ),

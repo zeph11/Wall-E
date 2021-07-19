@@ -854,10 +854,7 @@ class _CashOutState extends State<CashOut> {
                   ),
                   SingleChildScrollView(
                     child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 40.0,
-                        horizontal: 50.0,
-                      ), //removes away from edges
+                      padding: EdgeInsets.fromLTRB(50, 30, 30, 30),
                       child: Form(
                         child: Column(children: <Widget>[
                           SizedBox(
@@ -924,12 +921,64 @@ class _CashOutState extends State<CashOut> {
                           Text('Debt To:',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 16)),
-                          SizedBox(height: 15),
+                          SizedBox(height: 30),
                           Container(
                             height: MediaQuery.of(context).size.height / 1.9,
                             child: _buildDebtUIFuture(),
                           ),
-                          // Container(
+                        ]),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )));
+  }
+}
+
+//floatingActionButtonLocation:
+//     FloatingActionButtonLocation.endDocked,
+// floatingActionButton: FloatingActionButton(
+//   child: Icon(
+//     Icons.check,
+//     color: Colors.white,
+//     size: 39.0,
+//   ),
+//   backgroundColor: Colors.green[800],
+//   onPressed: () {
+//     if (_formkey.currentState.validate()) {
+//       if (cat == '') {
+//         Fluttertoast.showToast(
+//           msg: "Category not chosen",
+//           gravity: ToastGravity.BOTTOM,
+//           toastLength: Toast.LENGTH_LONG,
+//           backgroundColor: Colors.red,
+//           textColor: Colors.white,
+//         );
+//       } else {
+//         updateDBValues();
+//         updateHistory("abc");
+//         //setpercent(int.parse(amt));
+
+//         addpercent(int.parse(amt));
+//         if (true) {
+//           Fluttertoast.showToast(
+//             msg: "Transaction recorded",
+//             gravity: ToastGravity.BOTTOM,
+//             toastLength: Toast.LENGTH_SHORT,
+//             backgroundColor: Colors.blue,
+//             textColor: Colors.white,
+//           );
+//         }
+
+//         Navigator.pop(context, true);
+//       }
+//     }
+//   },
+// ),
+
+
+ // Container(
                           //   width: 350,
                           //   child: Column(
                           //     children: <Widget>[
@@ -1103,53 +1152,3 @@ class _CashOutState extends State<CashOut> {
                           //     shape: CircleBorder(),
                           //   ),
                           // )
-                        ]),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )));
-  }
-}
-
-//floatingActionButtonLocation:
-//     FloatingActionButtonLocation.endDocked,
-// floatingActionButton: FloatingActionButton(
-//   child: Icon(
-//     Icons.check,
-//     color: Colors.white,
-//     size: 39.0,
-//   ),
-//   backgroundColor: Colors.green[800],
-//   onPressed: () {
-//     if (_formkey.currentState.validate()) {
-//       if (cat == '') {
-//         Fluttertoast.showToast(
-//           msg: "Category not chosen",
-//           gravity: ToastGravity.BOTTOM,
-//           toastLength: Toast.LENGTH_LONG,
-//           backgroundColor: Colors.red,
-//           textColor: Colors.white,
-//         );
-//       } else {
-//         updateDBValues();
-//         updateHistory("abc");
-//         //setpercent(int.parse(amt));
-
-//         addpercent(int.parse(amt));
-//         if (true) {
-//           Fluttertoast.showToast(
-//             msg: "Transaction recorded",
-//             gravity: ToastGravity.BOTTOM,
-//             toastLength: Toast.LENGTH_SHORT,
-//             backgroundColor: Colors.blue,
-//             textColor: Colors.white,
-//           );
-//         }
-
-//         Navigator.pop(context, true);
-//       }
-//     }
-//   },
-// ),
